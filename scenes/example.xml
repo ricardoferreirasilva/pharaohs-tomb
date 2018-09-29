@@ -18,9 +18,9 @@
     <views default="firstV" >
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
-        <perspective id="firstV" near="ff" far="ff" angle="ff">
-            <from x="ff" y="ff" z="ff" />
-            <to x="ff" y="ff" z="ff" />
+        <perspective id="firstV" near="0.1" far="500" angle="0.4">
+            <from x="15" y="15" z="15" />
+            <to x="0" y="0" z="0" />
         </perspective>
         <ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" />
     </views>

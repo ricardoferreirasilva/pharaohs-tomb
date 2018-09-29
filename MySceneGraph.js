@@ -44,7 +44,7 @@ class MySceneGraph {
      * Callback to be executed after successful reading
      */
     onXMLReady() {
-        this.log("XML Loading finished.!!!");
+        this.log("XML Loading finished.!!!123");
         var rootElement = this.reader.xmlDoc.documentElement;
 
         // Here should go the calls for different functions to parse the various blocks
@@ -121,18 +121,50 @@ class MySceneGraph {
         this.views.default = this.reader.getString(views, 'default');
         if (this.views.default == null)
             return "no default view defined.";
-  
         var nodes = views.children;
         for (var i = 0; i < nodes.length; i++) {
-            let viewName = nodes[i].nodeName;
+            let viewNode = nodes[i];
+            let viewName = viewNode.nodeName;
             if(viewName == "perspective"){
+                let children = viewNode.children;
+                let id =  this.reader.getString(viewNode, 'id');
+                let near =  this.reader.getFloat(viewNode, 'near');
+                this.validateField("float",near);
+                let far =  this.reader.getFloat(viewNode, 'far');
+                let angle =  this.reader.getFloat(viewNode, 'angle');
+                
+                let perspective = {id:id,near:near,far:far,angle:angle};
+                if(children.length != 2){
+                    this.onXMLMinorError("a perspective needs from and to tags");
+                }
+                else{
+                    let from = children[0];
+                    if(from.nodeName != "from"){
+                        this.onXMLMinorError("first tag needs to be named form.");
+                    }
+                    let x =  this.reader.getFloat(from, 'x');
+                    let y =  this.reader.getFloat(from, 'y');
+                    let z =  this.reader.getFloat(from, 'z');
+                    perspective.from = {x:x,y:y,z:z};
 
+                    let to = children[1];
+                    if(to.nodeName != "to"){
+                        this.onXMLMinorError("first tag needs to be named to.");
+                    }
+                    let x1 =  this.reader.getFloat(to, 'x');
+                    let y1 =  this.reader.getFloat(to, 'y');
+                    let z1 =  this.reader.getFloat(to, 'z');
+                    perspective.to = {x:x1,y:y1,z:z1};
+                    console.log(perspective)
+                }
+                this.views.perspectives.push(perspective);
+                console.log(this.views)
             }
             else if(viewName == "ortho"){
 
             }
             else{
-                this.onXMLMinorError("unknoW view tag " + viewName);
+                this.onXMLMinorError("unknown view tag " + viewName);
             }
         }
         
@@ -176,5 +208,16 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
         // console.log("Axis length = " + this.axis_length);
+    }
+    validateField(type,value){
+        switch (type) {
+            case "float":
+                if (!(value != null && !isNaN(value))) {
+                    this.onXMLMinorError(value + " is not a float.");
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

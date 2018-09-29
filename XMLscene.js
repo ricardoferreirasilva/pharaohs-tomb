@@ -40,7 +40,16 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        //this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    }
+    placeCamera(){
+        this.graph.views.perspectives.forEach(perspective => {
+            console.log(perspective);
+            if(perspective.id == this.graph.views.default){
+                this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far, vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z), vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z));  
+            }
+        });
+
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -81,10 +90,9 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        //this.camera.near = this.graph.near;
-        //this.camera.far = this.graph.far;
+        this.placeCamera();
 
-        //TODO: Change reference length according to parsed graph
+        // Setting axis length.
         this.axis = new CGFaxis(this, this.graph.axis_length);
 
         // TODO: Change ambient and background details according to parsed graph
@@ -95,6 +103,8 @@ class XMLscene extends CGFscene {
         //this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
+
+        //  this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
 
