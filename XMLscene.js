@@ -21,7 +21,7 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
-
+        this.floor = new MyQuad(this, 1 , 1, 1, 1, 0, 1.5, 0, 1.5);
         this.sceneInited = false;
 
         this.initCameras();
@@ -102,27 +102,10 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-
+        this.axis.display();
+        this.floor.display();
         if (this.sceneInited) {
-            // Draw axis
-            this.axis.display();
-
-            var i = 0;
-            for (var key in this.lightValues) {
-                if (this.lightValues.hasOwnProperty(key)) {
-                    if (this.lightValues[key]) {
-                        this.lights[i].setVisible(true);
-                        this.lights[i].enable();
-                    }
-                    else {
-                        this.lights[i].setVisible(false);
-                        this.lights[i].disable();
-                    }
-                    this.lights[i].update();
-                    i++;
-                }
-            }
-
+           
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
