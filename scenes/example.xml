@@ -51,6 +51,22 @@
         <primitive id="rect1">
             <rectangle x1="1.0" y1="1.0" x2="1.0" y2="1.0" />
         </primitive >
+        <primitive id="rect2">
+            <rectangle x1="1.0" y1="1.0" x2="3.0" y2="3.0" />
+        </primitive >
     </primitives >
+    <components>
+        <component id="component1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="ss" />
+            </materials>
+            <texture id="ss" length_s="ff" length_t="ff" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+    </components>
 
 </yas>

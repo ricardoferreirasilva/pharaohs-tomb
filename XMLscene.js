@@ -103,11 +103,14 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         this.axis.display();
-        this.floor.display();
         if (this.sceneInited) {
            
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            //this.floor.display();
+            for (let i = 0; i < this.graph.components.length; i++) {
+                this.displayComponent(this.graph.components[i]);   
+            }
         }
         else {
             // Draw axis
@@ -116,5 +119,29 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
+    }
+    displayComponent(component){
+        
+        for (let i = 0; i < component.children.length; i++) {
+            let child = component.children[i];
+            if(child.type == "primitiveref"){
+                this.displayPrimitive(child.id);
+            }
+        }
+    }
+    displayPrimitive(id){
+        for (let i = 0; i < this.graph.primitives.length; i++) {
+            let primitive = this.graph.primitives[i];
+            if(primitive.id == id){
+                if(primitive.object.type == "rectangle"){
+                    let x1 = primitive.object.x1;
+                    let x2 = primitive.object.x2;
+                    let y1 = primitive.object.y1;
+                    let y2 = primitive.object.y2;
+                    let obj = new MyQuad(this, x1 , y1, x2, y2, 0, 1.5, 0, 1.5);
+                    obj.display();
+                }
+            }
+        }
     }
 }

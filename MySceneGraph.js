@@ -73,6 +73,8 @@ class MySceneGraph {
      * @param {XML root element} rootElement
      */
     parseXMLFile(rootElement) {
+
+
         if (rootElement.nodeName != "yas")
             return "root tag <yas> missing";
 
@@ -169,6 +171,16 @@ class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
+
+         // <COMPONENTS>
+         if ((index = nodeNames.indexOf("components")) == -1)
+            return "tag <components> missing";
+            else {
+                if (index != COMPONENTS_INDEX)
+                    this.onXMLMinorError("tag <components> out of order");
+                if ((error = this.parseComponents(nodes[index])) != null)
+                    return error;
+            }
 
 
         
@@ -285,7 +297,7 @@ class MySceneGraph {
                         let y1 =  this.reader.getFloat(object, 'y1');
                         let x2 =  this.reader.getFloat(object, 'x2');
                         let y2 =  this.reader.getFloat(object, 'y2');
-                        currentPrimitive.object = {name:object.nodeName,x1:x1,y1:y1,x2:x2,y2:y2};
+                        currentPrimitive.object = {type:object.nodeName,x1:x1,y1:y1,x2:x2,y2:y2};
                         this.primitives.push(currentPrimitive);
                     }
                 }
@@ -293,6 +305,47 @@ class MySceneGraph {
             }
         }
         console.log(this.primitives);
+    }
+    parseComponents(components){
+        this.components = [];
+        let children = components.children;
+        for (var i = 0; i < children.length; i++) {
+            let component = children[i];
+            if(component.nodeName != "component"){
+                this.onXMLMinorError("Components group only accepts children of the component type.");
+            }
+            else{
+                this.parseComponent(component);
+            }
+        }
+        
+    }
+    parseComponent(component){
+        let id =  this.reader.getString(component, 'id');
+        let componentObject = {id:id,transformation:[],materials:[],texture:undefined,children:[]};
+        let children = component.children;
+        for (var i = 0; i < children.length; i++) {
+            let property = children[i];
+            //Children parsing
+            if(property.nodeName == "children"){
+                let grandchildren = property.children;
+                for (var x = 0; x < grandchildren.length; x++) {
+                    let grandchild = grandchildren[0];
+                    //Primitiveref parsing
+                    if(grandchild.nodeName == "primitiveref"){
+                        let id =  this.reader.getString(grandchild, 'id');
+                        componentObject.children.push({type:"primitiveref",id:id})
+                    }
+                    else if(grandchild.nodeName == "componentref"){
+                        let id =  this.reader.getString(grandchild, 'id');
+                        componentObject.children.push({type:"componentref",id:id})
+                    }
+
+                }
+            }
+        }
+        this.components.push(componentObject);
+
     }
 
 
@@ -332,7 +385,8 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-        // console.log("Axis length = " + this.axis_length);
+        //this.floor.display();
+        
     }
     validateField(type,value){
         switch (type) {
