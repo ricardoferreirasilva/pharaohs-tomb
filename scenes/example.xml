@@ -29,21 +29,28 @@
         <background r="0.5" g="0.5" b="0.5" a="1.0" />
     </ambient>
     <lights>
-        <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
-        <!-- Os identificadores "id" nao podem ser repetidos -->
-        <omni id="ss" enabled="tt" >
+
+        <omni id="light1" enabled="tt" >
             <location x="ff" y="ff" z="ff" w="ff" />
             <ambient r="ff" g="ff" b="ff" a="ff" />
             <diffuse r="ff" g="ff" b="ff" a="ff" />
             <specular r="ff" g="ff" b="ff" a="ff" />
         </omni>
-        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
-            <!-- atencao, "target" e' diferente de "direction" -->
-            <location x="ff" y="ff" z="ff" w=”ff” />
+        <spot id="light2" enabled="tt" angle="ff" exponent="ff">
+            <location x="ff" y="ff" z="ff" w="ff" />
             <target x="ff" y="ff" z="ff" />
             <ambient r="ff" g="ff" b="ff" a="ff" />
             <diffuse r="ff" g="ff" b="ff" a="ff" />
             <specular r="ff" g="ff" b="ff" a="ff" />
         </spot>
     </lights>
+    <textures></textures>
+    <materials></materials>
+    <transformations></transformations>
+    <primitives>
+        <primitive id="rect1">
+            <rectangle x1="1.0" y1="1.0" x2="1.0" y2="1.0" />
+        </primitive >
+    </primitives >
+
 </yas>

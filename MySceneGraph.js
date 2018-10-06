@@ -1,9 +1,15 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
-let SCENE_INDEX = 1;
-let VIEWS_INDEX = 2;
-let AMBIENT_INDEX = 3;
+let SCENE_INDEX = 0;
+let VIEWS_INDEX = 1;
+let AMBIENT_INDEX = 2;
+let LIGHTS_INDEX = 3;
+let TEXTURES_INDEX = 4;
+let MATERIALS_INDEX = 5;
+let TRANSFORMATIONS_INDEX = 6;
+let PRIMITIVES_INDEX = 7;
+let COMPONENTS_INDEX = 8;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -71,7 +77,7 @@ class MySceneGraph {
             return "root tag <yas> missing";
 
         var nodes = rootElement.children;
-
+        console.log(nodes)
         // Reads the names of the nodes to an auxiliary buffer.
         var nodeNames = [];
 
@@ -81,7 +87,6 @@ class MySceneGraph {
         
         // Processes each node, verifying errors.
         let error;
-
 
         // <Scenes>
         let index;
@@ -113,6 +118,59 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
+
+        
+        // <AMBIENT>
+        if ((index = nodeNames.indexOf("ambient")) == -1)
+            return "tag <ambient> missing";
+        else {
+            if (index != AMBIENT_INDEX)
+                this.onXMLMinorError("tag <ambient> out of order");
+            if ((error = this.parseAmbient(nodes[index])) != null)
+                return error;
+        }
+        // <LIGHTS>
+        if ((index = nodeNames.indexOf("lights")) == -1)
+            return "tag <lights> missing";
+        else {
+            if (index != LIGHTS_INDEX)
+                this.onXMLMinorError("tag <ambient> out of order");
+        }
+        
+        // <TEXTURES>
+        if ((index = nodeNames.indexOf("textures")) == -1)
+         return "tag <textures> missing";
+            else {
+                if (index != TEXTURES_INDEX)
+                    this.onXMLMinorError("tag <textures> out of order");
+        }
+
+        // <MATERIALS>
+        if ((index = nodeNames.indexOf("materials")) == -1)
+        return "tag <materials> missing";
+            else {
+                if (index != MATERIALS_INDEX)
+                    this.onXMLMinorError("tag <materials> out of order");
+        }
+
+        // <TRANSFORMATIONS>
+        if ((index = nodeNames.indexOf("transformations")) == -1)
+        return "tag <transformations> missing";
+            else {
+                if (index != TRANSFORMATIONS_INDEX)
+                    this.onXMLMinorError("tag <transformations> out of order");
+        }
+
+        // <PRIMITIVES>
+        if ((index = nodeNames.indexOf("primitives")) == -1)
+            return "tag <primitives> missing";
+        else {
+            if (index != PRIMITIVES_INDEX)
+                this.onXMLMinorError("tag <primitives> out of order");
+            if ((error = this.parsePrimitives(nodes[index])) != null)
+                return error;
+        }
+
 
         
     }
@@ -168,10 +226,8 @@ class MySceneGraph {
                     let y1 =  this.reader.getFloat(to, 'y');
                     let z1 =  this.reader.getFloat(to, 'z');
                     perspective.to = {x:x1,y:y1,z:z1};
-                    console.log(perspective)
                 }
                 this.views.perspectives.push(perspective);
-                console.log(this.views)
             }
             else if(viewName == "ortho"){
 
@@ -187,7 +243,6 @@ class MySceneGraph {
         this.ambient = {ambient: undefined, background: undefined};
         for (var i = 0; i < ambientChildren.length; i++) {
             let child = ambientChildren[i];
-            console.log(child);
             if(child.nodeName == "ambient"){
                 let r =  this.reader.getFloat(child, 'r');
                 let g =  this.reader.getFloat(child, 'g');
@@ -207,6 +262,10 @@ class MySceneGraph {
             }
         }
 
+    }
+
+    parsePrimitives(primitives){
+        console.log(primitives);
     }
 
 

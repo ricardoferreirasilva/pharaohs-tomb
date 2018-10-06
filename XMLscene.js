@@ -44,7 +44,6 @@ class XMLscene extends CGFscene {
     }
     placeCamera(){
         this.graph.views.perspectives.forEach(perspective => {
-            console.log(perspective);
             if(perspective.id == this.graph.views.default){
                 this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far, vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z), vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z));  
             }
@@ -59,31 +58,7 @@ class XMLscene extends CGFscene {
         // Lights index.
         this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
         // Reads the lights from the scene graph.
-        console.log(this.graph.ambient);
-        for (var key in this.graph.lights) {
-            if (i >= 8)
-                break;              // Only eight lights allowed by WebGL.
-
-            if (this.graph.lights.hasOwnProperty(key)) {
-                var light = this.graph.lights[key];
-
-                //lights are predefined in cgfscene
-                this.lights[i].setPosition(light[1][0], light[1][1], light[1][2], light[1][3]);
-                this.lights[i].setAmbient(light[2][0], light[2][1], light[2][2], light[2][3]);
-                this.lights[i].setDiffuse(light[3][0], light[3][1], light[3][2], light[3][3]);
-                this.lights[i].setSpecular(light[4][0], light[4][1], light[4][2], light[4][3]);
-
-                this.lights[i].setVisible(true);
-                if (light[0])
-                    this.lights[i].enable();
-                else
-                    this.lights[i].disable();
-
-                this.lights[i].update();
-
-                i++;
-            }
-        }
+        
     }
 
 
