@@ -77,7 +77,6 @@ class MySceneGraph {
             return "root tag <yas> missing";
 
         var nodes = rootElement.children;
-        console.log(nodes)
         // Reads the names of the nodes to an auxiliary buffer.
         var nodeNames = [];
 
@@ -265,7 +264,35 @@ class MySceneGraph {
     }
 
     parsePrimitives(primitives){
-        console.log(primitives);
+        let children = primitives.children;
+        this.primitives = [];
+        for (var i = 0; i < children.length; i++) {
+            let primitive = children[i];
+            if(primitive.nodeName != "primitive"){
+                this.onXMLMinorError("Unknown ambient tag :" + child.nodeName);
+            }
+            else{
+                let id = this.reader.getString(primitive, 'id');
+                let objects = primitive.children;
+                let currentPrimitive = {id:id,object:undefined};
+                if(objects.length != 1){
+                    this.onXMLMinorError("Only one base object per primitive.");
+                }
+                else{
+                    let object = objects[0];
+                    if(object.nodeName == "rectangle"){
+                        let x1 =  this.reader.getFloat(object, 'x1');
+                        let y1 =  this.reader.getFloat(object, 'y1');
+                        let x2 =  this.reader.getFloat(object, 'x2');
+                        let y2 =  this.reader.getFloat(object, 'y2');
+                        currentPrimitive.object = {name:object.nodeName,x1:x1,y1:y1,x2:x2,y2:y2};
+                        this.primitives.push(currentPrimitive);
+                    }
+                }
+
+            }
+        }
+        console.log(this.primitives);
     }
 
 
