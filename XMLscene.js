@@ -45,7 +45,9 @@ class XMLscene extends CGFscene {
     placeCamera(){
         this.graph.views.perspectives.forEach(perspective => {
             if(perspective.id == this.graph.views.default){
-                this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far, vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z), vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z));  
+                let position = vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z);
+                let direction = vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z);
+                this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,position,direction);  
             }
         });
 
