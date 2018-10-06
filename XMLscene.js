@@ -56,10 +56,31 @@ class XMLscene extends CGFscene {
      * Initializes the scene lights with the values read from the XML file.
      */
     initLights() {
-        var i = 0;
-        // Lights index.
+        // Global ambient light
         this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
         // Reads the lights from the scene graph.
+        console.log(this.lights);
+        for (let i = 0; i < this.graph.lights.length; i++) {
+            let light = this.graph.lights[i];
+            console.log(light)
+            if(light.type == "omni"){
+                this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
+                this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
+                this.lights[i].setDiffuse(light.diffuse.r, light.diffuse.g, light.diffuse.b, light.diffuse.a);
+                this.lights[i].setSpecular(light.specular.r, light.specular.g, light.specular.b, light.specular.a);
+                if(light.enabled){
+                    this.lights[i].setVisible(true);
+                    this.lights[i].enable();
+                }
+                else{
+                    this.lights[i].setVisible(true);
+                    this.lights[i].disable();
+                }
+            }
+            else if(light.type == "spot"){
+
+            }
+        }
         
     }
 

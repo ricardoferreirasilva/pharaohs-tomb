@@ -135,7 +135,9 @@ class MySceneGraph {
             return "tag <lights> missing";
         else {
             if (index != LIGHTS_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+                this.onXMLMinorError("tag <lights> out of order");
+            if ((error = this.parseLights(nodes[index])) != null)
+                return error;
         }
         
         // <TEXTURES>
@@ -274,7 +276,66 @@ class MySceneGraph {
         }
 
     }
+    parseLights(lights){
+        this.lights = [];
+        let children = lights.children;
+        for (var i = 0; i < children.length; i++) {
+            let light = children[i];
+            if(light.nodeName == "omni")
+            {
+                this.parseOmniLight(light);
+            }
+            else if(light.nodeName == "spot"){
 
+            }
+            else{
+                this.onXMLMinorError("Unknown light type :" + child.nodeName);
+            }
+
+        }
+    }
+    parseOmniLight(light){
+        let id = this.reader.getString(light, 'id');
+        let enabled = this.reader.getBoolean(light, 'enabled');
+        let lightObject = {type:"omni",id:id,enabled:enabled,location:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
+        let children = light.children;
+        for (var i = 0; i < children.length; i++) {
+            let property = children[i];
+            let name = property.nodeName;
+            if(name == "location"){
+                let x =  this.reader.getFloat(property, 'x');
+                let y =  this.reader.getFloat(property, 'y');
+                let z =  this.reader.getFloat(property, 'z');
+                let w =  this.reader.getFloat(property, 'w');
+                lightObject.location = {x:x,y:y,z:z,w:w};
+            }
+            else if(name == "ambient"){
+                let r =  this.reader.getFloat(property, 'r');
+                let g =  this.reader.getFloat(property, 'g');
+                let b =  this.reader.getFloat(property, 'b');
+                let a =  this.reader.getFloat(property, 'a');
+                lightObject.ambient = {r:r,g:g,b:b,a:a};
+            }
+            else if(name == "diffuse"){
+                let r =  this.reader.getFloat(property, 'r');
+                let g =  this.reader.getFloat(property, 'g');
+                let b =  this.reader.getFloat(property, 'b');
+                let a =  this.reader.getFloat(property, 'a');
+                lightObject.diffuse = {r:r,g:g,b:b,a:a};
+            }
+            else if(name == "specular"){
+                let r =  this.reader.getFloat(property, 'r');
+                let g =  this.reader.getFloat(property, 'g');
+                let b =  this.reader.getFloat(property, 'b');
+                let a =  this.reader.getFloat(property, 'a');
+                lightObject.specular = {r:r,g:g,b:b,a:a};
+            }
+            else{
+                this.onXMLMinorError("Unknown light property tag :" + name);
+            }
+        }
+        this.lights.push(lightObject);
+    }
     parsePrimitives(primitives){
         let children = primitives.children;
         this.primitives = [];
