@@ -57,8 +57,9 @@ class XMLscene extends CGFscene {
     initLights() {
         var i = 0;
         // Lights index.
-
+        this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
         // Reads the lights from the scene graph.
+        console.log(this.graph.ambient);
         for (var key in this.graph.lights) {
             if (i >= 8)
                 break;              // Only eight lights allowed by WebGL.

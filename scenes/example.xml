@@ -25,8 +25,8 @@
         <ortho id="ss" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff" />
     </views>
     <ambient>
-        <ambient r="ff" g="ff" b="ff" a="ff" />
-        <background r="ff" g="ff" b="ff" a="ff" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <background r="0.5" g="0.5" b="0.5" a="1.0" />
     </ambient>
     <lights>
         <!-- Deve existir um ou mais blocos "omni" ou "spot" -->

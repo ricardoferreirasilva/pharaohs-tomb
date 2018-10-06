@@ -3,6 +3,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 // Order of the groups in the XML document.
 let SCENE_INDEX = 1;
 let VIEWS_INDEX = 2;
+let AMBIENT_INDEX = 3;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -102,6 +103,18 @@ class MySceneGraph {
             if ((error = this.parseViews(nodes[index])) != null)
                 return error;
         }
+
+        // <VIEWS>
+        if ((index = nodeNames.indexOf("ambient")) == -1)
+            return "tag <ambient> missing";
+        else {
+            if (index != AMBIENT_INDEX)
+                this.onXMLMinorError("tag <ambient> out of order");
+            if ((error = this.parseAmbient(nodes[index])) != null)
+                return error;
+        }
+
+        
     }
     parseScene(scene){
 
@@ -168,6 +181,32 @@ class MySceneGraph {
             }
         }
         
+    }
+    parseAmbient(ambient){
+        let ambientChildren = ambient.children;
+        this.ambient = {ambient: undefined, background: undefined};
+        for (var i = 0; i < ambientChildren.length; i++) {
+            let child = ambientChildren[i];
+            console.log(child);
+            if(child.nodeName == "ambient"){
+                let r =  this.reader.getFloat(child, 'r');
+                let g =  this.reader.getFloat(child, 'g');
+                let b =  this.reader.getFloat(child, 'b');
+                let a =  this.reader.getFloat(child, 'a');
+                this.ambient.ambient = {r:r,g:g,b:b,a:a};
+            }
+            else if(child.nodeName == "background"){
+                let r =  this.reader.getFloat(child, 'r');
+                let g =  this.reader.getFloat(child, 'g');
+                let b =  this.reader.getFloat(child, 'b');
+                let a =  this.reader.getFloat(child, 'a');
+                this.ambient.background = {r:r,g:g,b:b,a:a};
+            }
+            else{
+                this.onXMLMinorError("Unknown ambient tag :" + child.nodeName);
+            }
+        }
+
     }
 
 
