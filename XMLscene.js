@@ -28,7 +28,7 @@ class XMLscene extends CGFscene {
 
         // Materials
          this.materialDefault = new CGFappearance(this);
-         this.materialDefault.setAmbient(1, 0.3, 0.3, 1);
+         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
 
@@ -137,8 +137,10 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-        this.pushMatrix();
         this.axis.display();
+        this.materialDefault.apply();
+
+
         if (this.sceneInited) {
            
             // Displays the scene (MySceneGraph function).
@@ -150,12 +152,7 @@ class XMLscene extends CGFscene {
                 this.popMatrix();
             }
         }
-        else {
-            // Draw axis
-            this.axis.display();
-        }
 
-        this.popMatrix();
         // ---- END Background, camera and axis setup
     }
     displayComponent(component){
@@ -176,6 +173,17 @@ class XMLscene extends CGFscene {
                 }
             }
         }
+        //Apply materials
+        for (let i = 0; i < component.materials.length; i++) {
+            let child = component.materials[i];
+            for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
+                let currentMaterial = this.graph.materials[i2];
+                if(child.id == currentMaterial.id){
+                    this.applyMaterial(currentMaterial);
+                }
+            }
+        }
+
         //Process children nodes.
         for (let i = 0; i < component.children.length; i++) {
             let child = component.children[i];
@@ -231,5 +239,12 @@ class XMLscene extends CGFscene {
                     break;
             }
         }
+    }
+    applyMaterial(material){
+        let newMaterial = new CGFappearance(this);
+        newMaterial.setAmbient(1, 0.3, 0.3, 1);
+        newMaterial.setDiffuse(0.6, 0.6, 0.6, 1);
+        newMaterial.setSpecular(0, 0.2, 0.8, 1);
+        newMaterial.apply();
     }
 }

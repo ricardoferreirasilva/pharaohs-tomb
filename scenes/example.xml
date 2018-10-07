@@ -88,11 +88,10 @@
                 <transformationref id="transformation1" />
             </transformation>
             <materials>
-                <material id="ss" />
             </materials>
             <texture id="ss" length_s="ff" length_t="ff" />
             <children>
-                <componentref id="wall1"/>
+               <primitiveref id="rect1"/>
             </children>
         </component>
          <component id="wall1">
@@ -100,7 +99,7 @@
                
             </transformation>
             <materials>
-                <material id="ss" />
+                 <material id="mat1" />
             </materials>
             <texture id="ss" length_s="ff" length_t="ff" />
             <children>

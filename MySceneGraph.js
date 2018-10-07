@@ -509,6 +509,17 @@ class MySceneGraph {
 
                 }
             }
+            else if(property.nodeName == "materials"){
+                let grandchildren = property.children;
+                for (var x = 0; x < grandchildren.length; x++) {
+                    let grandchild = grandchildren[x];
+                    //Primitiveref parsing
+                    if(grandchild.nodeName == "material"){
+                        let id =  this.reader.getString(grandchild, 'id');
+                        componentObject.materials.push({id:id})
+                    }
+                }
+            }
         }
         this.components.push(componentObject);
 
