@@ -193,5 +193,8 @@ class XMLscene extends CGFscene {
         if(transformation.type == "translate"){
             this.translate(transformation.x,transformation.y,transformation.z);
         }
+        else if(transformation.type == "scale"){
+            this.scale(transformation.x,transformation.y,transformation.z);
+        }
     }
 }

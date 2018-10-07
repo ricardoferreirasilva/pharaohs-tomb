@@ -56,6 +56,9 @@
         <transformation id="transformation2">
             <translate x="0" y="0" z="0" />
         </transformation>
+         <transformation id="transformation3">
+            <scale x="2" y="2" z="1" />
+        </transformation>
     </transformations>
     <primitives>
         <primitive id="rect1">
@@ -68,8 +71,7 @@
     <components>
         <component id="component1">
             <transformation>
-                <transformationref id="transformation1" />
-                <transformationref id="transformation2" />
+                <transformationref id="transformation3" />
             </transformation>
             <materials>
                 <material id="ss" />
