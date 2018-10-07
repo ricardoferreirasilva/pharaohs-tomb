@@ -93,6 +93,7 @@
             <texture id="ss" length_s="ff" length_t="ff" />
             <children>
                 <primitiveref id="rect1"/>
+                <componentref id="component1"/>
             </children>
         </component>
     </components>

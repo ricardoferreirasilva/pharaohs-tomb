@@ -183,6 +183,15 @@ class XMLscene extends CGFscene {
                 
                 this.displayPrimitive(child.id);
             }
+            else if(child.type == "componentref"){
+                for (let i2 = 0; i2 < this.graph.components.length; i2++) {
+                    let currentComponent = this.graph.components[i2];
+                    if(child.id == currentComponent.id){
+                        this.displayComponent(currentComponent);
+                    }
+                }
+               
+            }
         }
     }
     displayPrimitive(id){
