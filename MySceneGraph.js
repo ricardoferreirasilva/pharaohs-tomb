@@ -515,9 +515,9 @@ class MySceneGraph {
                         let z =  this.reader.getFloat(grandchild, 'z');
                         componentObject.transformations.push({type:"scale",x:x,y:y,z:z});
                     }
-                    else if(operation.nodeName == "rotate"){
-                        let angle =  this.reader.getFloat(operation, 'angle');
-                        let axis =  this.reader.getString(operation, 'axis');
+                    else if(grandchild.nodeName == "rotate"){
+                        let angle =  this.reader.getFloat(grandchild, 'angle');
+                        let axis =  this.reader.getString(grandchild, 'axis');
                         componentObject.transformations.push({type:"rotate",axis:axis,angle:angle});
                     }
 

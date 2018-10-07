@@ -97,7 +97,9 @@
         </component>
          <component id="wall1">
             <transformation>
-               
+               <scale x="2" y="2" z="0" />
+               <translate x="0" y="2" z="3.3" />
+               <rotate axis="y" angle="0.3" />
             </transformation>
             <materials>
                  <material id="mat1" />
