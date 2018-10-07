@@ -68,7 +68,7 @@
             <translate x="0" y="0" z="0" />
         </transformation>
         <transformation id="transformation3">
-            <scale x="2" y="2" z="1" />
+            <translate x="0" y="0" z="3" />
         </transformation>
          <transformation id="transformation4">
            <rotate axis="z" angle="0" />
@@ -85,7 +85,7 @@
     <components>
         <component id="component1">
             <transformation>
-                <scale x="2" y="2" z="0" />
+                <scale x="2" y="2" z="1" />
                 <translate x="1" y="1" z="0" />
             </transformation>
             <materials>
@@ -97,9 +97,8 @@
         </component>
          <component id="wall1">
             <transformation>
-               <scale x="2" y="2" z="0" />
-               <translate x="0" y="2" z="3.3" />
-               <rotate axis="y" angle="0.3" />
+               <scale x="2" y="2" z="1" />
+               <translate x="0" y="2" z="2" />
             </transformation>
             <materials>
                  <material id="mat1" />
