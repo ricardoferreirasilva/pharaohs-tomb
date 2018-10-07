@@ -162,6 +162,8 @@ class MySceneGraph {
             else {
                 if (index != TRANSFORMATIONS_INDEX)
                     this.onXMLMinorError("tag <transformations> out of order");
+                if ((error = this.parseTransformations(nodes[index])) != null)
+                    return error;
         }
 
         // <PRIMITIVES>
@@ -336,6 +338,40 @@ class MySceneGraph {
         }
         this.lights.push(lightObject);
     }
+    parseTransformations(transformations){
+        this.transformations = [];
+        let children = transformations.children;
+        for (var i = 0; i < children.length; i++) {
+            let transform = children[i];
+            let nodeName = transform.nodeName;
+            let id = this.reader.getString(transform, 'id');
+            let transformationObject = {id:id,operations:[]};
+            let grandchildren = transform.children;
+            for (var i2 = 0; i2 < grandchildren.length; i2++) {
+                let operation = grandchildren[i2];
+                if(operation.nodeName == "translate"){
+                    let x =  this.reader.getFloat(operation, 'x');
+                    let y =  this.reader.getFloat(operation, 'y');
+                    let z =  this.reader.getFloat(operation, 'z');
+                    transformationObject.operations.push({type:"translate",x:x,y:y,z:z});
+                }
+                else if(operation.nodeName == "rotate"){
+                    let axis =  this.reader.getFloat(operation, 'axis');
+                    let angle =  this.reader.getCharacter(operation, 'angle');
+                    transformationObject.operations.push({type:"rotate",axis:axis,angle:angle});
+                }
+                else if(operation.nodeName == "scale"){
+                    let x =  this.reader.getFloat(operation, 'x');
+                    let y =  this.reader.getFloat(operation, 'y');
+                    let z =  this.reader.getFloat(operation, 'z');
+                    transformationObject.operations.push({type:"scale",x:x,y:y,z:z});
+                }
+
+            }
+            this.transformations.push(transformationObject)
+        }
+        console.log(this.transformations);
+    }
     parsePrimitives(primitives){
         let children = primitives.children;
         this.primitives = [];
@@ -383,7 +419,7 @@ class MySceneGraph {
     }
     parseComponent(component){
         let id =  this.reader.getString(component, 'id');
-        let componentObject = {id:id,transformation:[],materials:[],texture:undefined,children:[]};
+        let componentObject = {id:id,transformations:[],materials:[],texture:undefined,children:[]};
         let children = component.children;
         for (var i = 0; i < children.length; i++) {
             let property = children[i];
@@ -400,6 +436,21 @@ class MySceneGraph {
                     else if(grandchild.nodeName == "componentref"){
                         let id =  this.reader.getString(grandchild, 'id');
                         componentObject.children.push({type:"componentref",id:id})
+                    }
+
+                }
+            }
+            else if(property.nodeName == "transformation"){
+                let grandchildren = property.children;
+                for (var x = 0; x < grandchildren.length; x++) {
+                    let grandchild = grandchildren[0];
+                    //Primitiveref parsing
+                    if(grandchild.nodeName == "transformationref"){
+                        let id =  this.reader.getString(grandchild, 'id');
+                        componentObject.transformations.push({type:"transformationref",id:id})
+                    }
+                    else if(grandchild.nodeName == "translate"){
+             
                     }
 
                 }

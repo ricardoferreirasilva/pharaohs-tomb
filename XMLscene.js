@@ -89,6 +89,8 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+        console.log(this.graph.components);
+        console.log(this.graph.transformations);
         this.placeCamera();
 
         // Setting axis length.
