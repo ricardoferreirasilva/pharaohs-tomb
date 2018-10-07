@@ -427,7 +427,7 @@ class MySceneGraph {
             if(property.nodeName == "children"){
                 let grandchildren = property.children;
                 for (var x = 0; x < grandchildren.length; x++) {
-                    let grandchild = grandchildren[0];
+                    let grandchild = grandchildren[x];
                     //Primitiveref parsing
                     if(grandchild.nodeName == "primitiveref"){
                         let id =  this.reader.getString(grandchild, 'id');
@@ -443,7 +443,7 @@ class MySceneGraph {
             else if(property.nodeName == "transformation"){
                 let grandchildren = property.children;
                 for (var x = 0; x < grandchildren.length; x++) {
-                    let grandchild = grandchildren[0];
+                    let grandchild = grandchildren[x];
                     //Primitiveref parsing
                     if(grandchild.nodeName == "transformationref"){
                         let id =  this.reader.getString(grandchild, 'id');

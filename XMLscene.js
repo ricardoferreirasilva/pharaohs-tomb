@@ -134,7 +134,9 @@ class XMLscene extends CGFscene {
             this.graph.displayScene();
             //this.floor.display();
             for (let i = 0; i < this.graph.components.length; i++) {
+                this.pushMatrix();
                 this.displayComponent(this.graph.components[i]);   
+                this.popMatrix();
             }
         }
         else {
@@ -146,10 +148,28 @@ class XMLscene extends CGFscene {
         // ---- END Background, camera and axis setup
     }
     displayComponent(component){
-        
+        //Apply transformations
+        for (let i = 0; i < component.transformations.length; i++) {
+            let transform = component.transformations[i];
+            
+            if(transform.type == "transformationref"){
+                for (let i2 = 0; i2 < this.graph.transformations.length; i2++) {
+                    let transformation = this.graph.transformations[i2]
+                    if(transformation.id == transform.id)
+                    {
+                        for (let i3 = 0; i3 < transformation.operations.length; i3++) {
+                            let operation = transformation.operations[i3];
+                            this.applyTransformation(operation);
+                        }
+                    }
+                }
+            }
+        }
+        //Process children nodes.
         for (let i = 0; i < component.children.length; i++) {
             let child = component.children[i];
             if(child.type == "primitiveref"){
+                
                 this.displayPrimitive(child.id);
             }
         }
@@ -167,6 +187,11 @@ class XMLscene extends CGFscene {
                     obj.display();
                 }
             }
+        }
+    }
+    applyTransformation(transformation){
+        if(transformation.type == "translate"){
+            this.translate(transformation.x,transformation.y,transformation.z);
         }
     }
 }
