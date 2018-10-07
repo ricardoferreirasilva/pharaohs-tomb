@@ -16,8 +16,6 @@
     <!-- como o comprimento dos tres eixos (cilindros) -->
     <scene root="cube1" axis_length="5.0" />
     <views default="view1" >
-    <!-- tem de existir, pelo menos, uma vista de -->
-    <!-- entre as seguintes (perspective ou ortho) -->
         <perspective id="view1" angle="0.4" near="0.1" far="500">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
@@ -28,7 +26,7 @@
         </perspective>
     </views>
     <ambient>
-        <ambient r="0.6" g="0.5" b="0.5" a="1.0" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
         <background r="0.5" g="0.5" b="0.5" a="1.0" />
     </ambient>
     <lights>
@@ -51,13 +49,16 @@
     <materials></materials>
     <transformations>
         <transformation id="transformation1">
-            <translate x="3" y="3" z="3" />
+            <translate x="1" y="1" z="0" />
         </transformation>
         <transformation id="transformation2">
             <translate x="0" y="0" z="0" />
         </transformation>
-         <transformation id="transformation3">
+        <transformation id="transformation3">
             <scale x="2" y="2" z="1" />
+        </transformation>
+         <transformation id="transformation4">
+           <rotate axis="z" angle="0" />
         </transformation>
     </transformations>
     <primitives>
@@ -71,7 +72,20 @@
     <components>
         <component id="component1">
             <transformation>
-                <transformationref id="transformation3" />
+                <transformationref id="transformation1" />
+                <transformationref id="transformation4" />
+            </transformation>
+            <materials>
+                <material id="ss" />
+            </materials>
+            <texture id="ss" length_s="ff" length_t="ff" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+         <component id="wall1">
+            <transformation>
+               
             </transformation>
             <materials>
                 <material id="ss" />

@@ -26,6 +26,16 @@ class XMLscene extends CGFscene {
 
         this.initCameras();
 
+        // Materials
+         this.materialDefault = new CGFappearance(this);
+         this.materialDefault.setAmbient(1, 0.3, 0.3, 1);
+        this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
+        this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
+
+
+
+
+
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -40,16 +50,18 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        //this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     placeCamera(){
+        let chosenCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));;
         this.graph.views.perspectives.forEach(perspective => {
             if(perspective.id == this.graph.views.default){
                 let position = vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z);
                 let direction = vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z);
-                this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,position,direction);  
+                chosenCamera= new CGFcamera(perspective.angle, perspective.near, perspective.far,position,direction); 
             }
         });
+        this.camera = chosenCamera;
 
     }
     /**
@@ -59,7 +71,6 @@ class XMLscene extends CGFscene {
         // Global ambient light
         this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
         // Reads the lights from the scene graph.
-        console.log(this.lights);
         for (let i = 0; i < this.graph.lights.length; i++) {
             let light = this.graph.lights[i];
             console.log(light)
@@ -195,6 +206,21 @@ class XMLscene extends CGFscene {
         }
         else if(transformation.type == "scale"){
             this.scale(transformation.x,transformation.y,transformation.z);
+        }
+        else if(transformation.type == "rotate"){
+            switch (transformation.axis) {
+                case "x":
+                    this.rotate(transformation.angle,1,0,0)
+                    break;
+                case "y":
+                    this.rotate(transformation.angle,0,1,0)
+                    break;
+                case "z":
+                    this.rotate(transformation.angle,0,0,1)
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

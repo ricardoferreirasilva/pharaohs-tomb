@@ -356,8 +356,8 @@ class MySceneGraph {
                     transformationObject.operations.push({type:"translate",x:x,y:y,z:z});
                 }
                 else if(operation.nodeName == "rotate"){
-                    let axis =  this.reader.getFloat(operation, 'axis');
-                    let angle =  this.reader.getCharacter(operation, 'angle');
+                    let angle =  this.reader.getFloat(operation, 'angle');
+                    let axis =  this.reader.getString(operation, 'axis');
                     transformationObject.operations.push({type:"rotate",axis:axis,angle:angle});
                 }
                 else if(operation.nodeName == "scale"){
