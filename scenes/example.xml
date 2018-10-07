@@ -49,13 +49,13 @@
     <materials>
         <material id="mat1" shininess = "0.5" >
             <emission r="0.4" g="0.3" b="0.3" a="1" />
-            <ambient r="0.8" g="0.7" b="0.3" a="1" />
+            <ambient r="0.6" g="0.4" b="0.1" a="1" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
             <specular r="0" g="0.2" b="0.8" a="1" />
         </material>
         <material id="mat2" shininess = "0.8" >
             <emission r="0.4" g="0.3" b="0.3" a="1" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <ambient r="0.8" g="0.3" b="0.3" a="1" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
             <specular r="0" g="0.2" b="0.8" a="1" />
         </material>
@@ -83,22 +83,36 @@
         </primitive >
     </primitives >
     <components>
-        <component id="component1">
+    <component id="floor">
+            <transformation>
+                <rotate axis="x" angle="-1.57"/>
+                <scale x="2" y="2" z="1" />
+                <translate x="1" y="-1" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat2" />
+            </materials>
+            <children>
+               <primitiveref id="rect1"/>
+            </children>
+        </component>
+        <component id="wall1">
             <transformation>
                 <scale x="2" y="2" z="1" />
                 <translate x="1" y="1" z="0" />
             </transformation>
             <materials>
+               <material id="mat1" />
             </materials>
-            <texture id="ss" length_s="ff" length_t="ff" />
             <children>
                <primitiveref id="rect1"/>
             </children>
         </component>
-         <component id="wall1">
+         <component id="wall2">
             <transformation>
-               <scale x="2" y="2" z="1" />
-               <translate x="0" y="2" z="2" />
+               <rotate axis="y" angle="1.57"/>
+                <scale x="2" y="2" z="1" />
+                <translate x="-1" y="1" z="0" />
             </transformation>
             <materials>
                  <material id="mat1" />

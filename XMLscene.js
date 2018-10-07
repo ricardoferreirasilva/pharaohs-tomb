@@ -231,13 +231,13 @@ class XMLscene extends CGFscene {
         else if(transformation.type == "rotate"){
             switch (transformation.axis) {
                 case "x":
-                    this.rotate(transformation.angle,0,1,1)
+                    this.rotate(transformation.angle,1,0,0)
                     break;
                 case "y":
-                    this.rotate(transformation.angle,1,0,1)
+                    this.rotate(transformation.angle,0,1,0)
                     break;
                 case "z":
-                    this.rotate(transformation.angle,1,1,0)
+                    this.rotate(transformation.angle,0,0,1)
                     break;
                 default:
                     break;
