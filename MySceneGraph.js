@@ -154,6 +154,8 @@ class MySceneGraph {
             else {
                 if (index != MATERIALS_INDEX)
                     this.onXMLMinorError("tag <materials> out of order");
+                if ((error = this.parseMaterials(nodes[index])) != null)
+                    return error;
         }
 
         // <TRANSFORMATIONS>
@@ -337,6 +339,58 @@ class MySceneGraph {
             }
         }
         this.lights.push(lightObject);
+    }
+    parseMaterials(materials){
+        this.materials = [];
+        let children = materials.children;
+        for (var i = 0; i < children.length; i++) {
+            let material = children[i];
+            if(material.nodeName != "material"){
+                this.onXMLMinorError("Unknown materials tag :" + material.nodeName);
+            }
+            else{
+                let id = this.reader.getString(material, 'id');
+                let shininess =  this.reader.getFloat(material, 'shininess');
+                let materialObject = {id:id,shininess:shininess,emission:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
+                let grandchildren = material.children;
+                for (var i2 = 0; i2 < grandchildren.length; i2++) {
+                    let grandchild = grandchildren[i2];
+                    if(grandchild.nodeName == "emission"){
+                        let r =  this.reader.getFloat(grandchild, 'r');
+                        let g =  this.reader.getFloat(grandchild, 'g');
+                        let b =  this.reader.getFloat(grandchild, 'b');
+                        let a =  this.reader.getFloat(grandchild, 'a');
+                        materialObject.emission = {r:r,g:g,b:b,a:a};
+                    }
+                    else if(grandchild.nodeName == "ambient"){
+                        let r =  this.reader.getFloat(grandchild, 'r');
+                        let g =  this.reader.getFloat(grandchild, 'g');
+                        let b =  this.reader.getFloat(grandchild, 'b');
+                        let a =  this.reader.getFloat(grandchild, 'a');
+                        materialObject.ambient = {r:r,g:g,b:b,a:a};
+                    }
+                    else if(grandchild.nodeName == "diffuse"){
+                        let r =  this.reader.getFloat(grandchild, 'r');
+                        let g =  this.reader.getFloat(grandchild, 'g');
+                        let b =  this.reader.getFloat(grandchild, 'b');
+                        let a =  this.reader.getFloat(grandchild, 'a');
+                        materialObject.diffuse = {r:r,g:g,b:b,a:a};
+                    }
+                    else if(grandchild.nodeName == "specular"){
+                        let r =  this.reader.getFloat(grandchild, 'r');
+                        let g =  this.reader.getFloat(grandchild, 'g');
+                        let b =  this.reader.getFloat(grandchild, 'b');
+                        let a =  this.reader.getFloat(grandchild, 'a');
+                        materialObject.specular = {r:r,g:g,b:b,a:a};
+                    }
+                    else{
+                        this.onXMLMinorError("Unknown material tag :" + grandchild.nodeName);
+                    }
+                }
+                this.materials.push(materialObject);
+            }
+        }
+        console.log(this.materials)
     }
     parseTransformations(transformations){
         this.transformations = [];
