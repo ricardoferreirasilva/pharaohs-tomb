@@ -172,6 +172,9 @@ class XMLscene extends CGFscene {
                     }
                 }
             }
+            else if(transform.type == "translate") this.applyTransformation(transform);
+            else if(transform.type == "rotate") this.applyTransformation(transform);
+            else if(transform.type == "scale") this.applyTransformation(transform);
         }
         //Apply materials
         for (let i = 0; i < component.materials.length; i++) {
@@ -198,7 +201,6 @@ class XMLscene extends CGFscene {
                         this.displayComponent(currentComponent);
                     }
                 }
-               
             }
         }
     }
@@ -242,9 +244,9 @@ class XMLscene extends CGFscene {
     }
     applyMaterial(material){
         let newMaterial = new CGFappearance(this);
-        newMaterial.setAmbient(1, 0.3, 0.3, 1);
-        newMaterial.setDiffuse(0.6, 0.6, 0.6, 1);
-        newMaterial.setSpecular(0, 0.2, 0.8, 1);
+        newMaterial.setAmbient(material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a);
+        newMaterial.setDiffuse(material.diffuse.r, material.diffuse.g, material.diffuse.b, material.diffuse.a);
+        newMaterial.setSpecular(material.specular.r, material.specular.g, material.specular.b, material.specular.a);
         newMaterial.apply();
     }
 }

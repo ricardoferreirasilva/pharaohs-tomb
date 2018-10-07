@@ -504,7 +504,21 @@ class MySceneGraph {
                         componentObject.transformations.push({type:"transformationref",id:id})
                     }
                     else if(grandchild.nodeName == "translate"){
-             
+                        let x =  this.reader.getFloat(grandchild, 'x');
+                        let y =  this.reader.getFloat(grandchild, 'y');
+                        let z =  this.reader.getFloat(grandchild, 'z');
+                        componentObject.transformations.push({type:"translate",x:x,y:y,z:z});
+                    }
+                    else if(grandchild.nodeName == "scale"){
+                        let x =  this.reader.getFloat(grandchild, 'x');
+                        let y =  this.reader.getFloat(grandchild, 'y');
+                        let z =  this.reader.getFloat(grandchild, 'z');
+                        componentObject.transformations.push({type:"scale",x:x,y:y,z:z});
+                    }
+                    else if(operation.nodeName == "rotate"){
+                        let angle =  this.reader.getFloat(operation, 'angle');
+                        let axis =  this.reader.getString(operation, 'axis');
+                        componentObject.transformations.push({type:"rotate",axis:axis,angle:angle});
                     }
 
                 }
