@@ -333,8 +333,10 @@ class MySceneGraph {
     }
     parseSpotLight(light){
         let id = this.reader.getString(light, 'id');
+        let angle =  this.reader.getFloat(light, 'angle');
+        let exponent =  this.reader.getFloat(light, 'exponent');
         let enabled = this.reader.getBoolean(light, 'enabled');
-        let lightObject = {type:"spot",id:id,enabled:enabled,location:undefined,target:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
+        let lightObject = {type:"spot",id:id,exponent:exponent,angle:angle,enabled:enabled,location:undefined,target:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
         let children = light.children;
         for (var i = 0; i < children.length; i++) {
             let property = children[i];
@@ -350,8 +352,7 @@ class MySceneGraph {
                 let x =  this.reader.getFloat(property, 'x');
                 let y =  this.reader.getFloat(property, 'y');
                 let z =  this.reader.getFloat(property, 'z');
-                let w =  this.reader.getFloat(property, 'w');
-                lightObject.target = {x:x,y:y,z:z,w:w};
+                lightObject.target = {x:x,y:y,z:z};
             }
             else if(name == "ambient"){
                 let r =  this.reader.getFloat(property, 'r');
