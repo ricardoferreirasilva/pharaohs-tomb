@@ -7,6 +7,7 @@ class MyInterface extends CGFinterface {
      */
     constructor() {
         super();
+        this.materialCount = 0;
     }
 
     /**
@@ -44,6 +45,12 @@ class MyInterface extends CGFinterface {
                 this.scene.lightValues[key] = lights[key][0];
                 group.add(this.scene.lightValues, key);
             }
+        }
+    }
+    processKeyboard( event ){
+        if(event.key == "m"){
+            this.materialCount++;
+            console.log(this.materialCount);
         }
     }
 }
