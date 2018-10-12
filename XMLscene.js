@@ -218,14 +218,14 @@ class XMLscene extends CGFscene {
                 aid1 = Math.floor(aid1);
                 materialIndex = this.interface.materialCount - (aid1 * component.materials.length)
             }
-
-
-            for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
-                let currentMaterial = this.graph.materials[i2];
-                if(child.id == currentMaterial.id){
-                    this.applyMaterial(currentMaterial);
-                    //only apply one material
-                    break;
+            if(i == materialIndex){
+                for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
+                    let currentMaterial = this.graph.materials[i2];
+                    if(child.id == currentMaterial.id){
+                        this.applyMaterial(currentMaterial);
+                        //only apply one material
+                        break;
+                    }
                 }
             }
         }

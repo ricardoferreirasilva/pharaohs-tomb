@@ -64,6 +64,12 @@
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
             <specular r="0" g="0.2" b="0.8" a="1" />
         </material>
+        <material id="mat3" shininess = "0.1" >
+            <emission r="0.4" g="0.3" b="0.3" a="1" />
+            <ambient r="0.1" g="0.8" b="0.3" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <specular r="0" g="0.2" b="0.8" a="1" />
+        </material>
     </materials>
     <transformations>
         <transformation id="transformation1">
@@ -108,6 +114,8 @@
             </transformation>
             <materials>
                <material id="mat1" />
+               <material id="mat3" />
+               <material id="mat2" />
             </materials>
             <children>
                <primitiveref id="rect1"/>
