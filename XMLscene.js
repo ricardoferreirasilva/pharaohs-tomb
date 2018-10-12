@@ -62,6 +62,14 @@ class XMLscene extends CGFscene {
                 chosenCamera= new CGFcamera(perspective.angle, perspective.near, perspective.far,position,direction); 
             }
         });
+        this.graph.views.orthopedics.forEach(orthopedic => {
+            console.log(orthopedic);
+            if(orthopedic.id == this.graph.views.default){
+                let position = vec3.fromValues(orthopedic.from.x, orthopedic.from.y, orthopedic.from.z);
+                let direction = vec3.fromValues(orthopedic.to.x, orthopedic.to.y, orthopedic.to.z);
+                let camera = new CGFcameraOrtho( orthopedic.left, orthopedic.right, orthopedic.bottom, orthopedic.top, orthopedic.near, orthopedic.far, position, direction);
+            }
+        });
         this.camera = chosenCamera;
         this.interface.changeCamera(this.camera);
     }
@@ -75,7 +83,6 @@ class XMLscene extends CGFscene {
         // Reads the lights from the scene graph.
         for (let i = 0; i < this.graph.lights.length; i++) {
             let light = this.graph.lights[i];
-            console.log(light)
             if(light.type == "omni"){
                 
                 this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);

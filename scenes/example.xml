@@ -15,7 +15,7 @@
     <!-- deve definir-se um objeto para raiz da arvore, assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
     <scene root="cube1" axis_length="5.0" />
-    <views default="view1" >
+    <views default="vi3" >
         <perspective id="view1" angle="0.4" near="0.1" far="500">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
