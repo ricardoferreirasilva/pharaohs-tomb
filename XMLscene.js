@@ -31,7 +31,7 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
-        this.materialDefault.loadTexture("./scenes/images/leaves.jpg");
+        this.materialDefault.loadTexture("./scenes/images/egypt1.jpg");
 
 
 
