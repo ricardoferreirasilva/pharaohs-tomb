@@ -157,6 +157,9 @@ class XMLscene extends CGFscene {
 
         // ---- END Background, camera and axis setup
     }
+    // visit (matriz,material,textura)
+    // este componente tem um material? se sim display it, caso contrario mostrar o que vem como arg
+    // same para a textura.
     displayComponent(component){
         //Apply transformations
         for (let i = 0; i < component.transformations.length; i++) {
