@@ -247,13 +247,46 @@ class MySceneGraph {
                 this.views.perspectives.push(perspective);
             }
             else if(viewName == "ortho"){
+                let children = viewNode.children;
+                let id =  this.reader.getString(viewNode, 'id');
+                let near =  this.reader.getFloat(viewNode, 'near');
+                this.validateField("float",near);
+                let far =  this.reader.getFloat(viewNode, 'far');
+                let left =  this.reader.getFloat(viewNode, 'left');
+                let right =  this.reader.getFloat(viewNode, 'right');
+                let top =  this.reader.getFloat(viewNode, 'top');
+                let bottom =  this.reader.getFloat(viewNode, 'bottom');
+                
+                let orthopedic = {id:id,near:near,far:far,left:left,right:right,top:top,bottom:bottom};
+                if(children.length != 2){
+                    this.onXMLMinorError("a perspective needs from and to tags");
+                }
+                else{
+                    let from = children[0];
+                    if(from.nodeName != "from"){
+                        this.onXMLMinorError("first tag needs to be named form.");
+                    }
+                    let x =  this.reader.getFloat(from, 'x');
+                    let y =  this.reader.getFloat(from, 'y');
+                    let z =  this.reader.getFloat(from, 'z');
+                    orthopedic.from = {x:x,y:y,z:z};
 
+                    let to = children[1];
+                    if(to.nodeName != "to"){
+                        this.onXMLMinorError("first tag needs to be named to.");
+                    }
+                    let x1 =  this.reader.getFloat(to, 'x');
+                    let y1 =  this.reader.getFloat(to, 'y');
+                    let z1 =  this.reader.getFloat(to, 'z');
+                    orthopedic.to = {x:x1,y:y1,z:z1};
+                }
+                this.views.orthopedics.push(orthopedic);
             }
             else{
                 this.onXMLMinorError("unknown view tag " + viewName);
             }
         }
-        
+        console.log(this.views)
     }
     parseAmbient(ambient){
         let ambientChildren = ambient.children;

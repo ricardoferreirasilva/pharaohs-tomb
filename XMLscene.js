@@ -76,16 +76,23 @@ class XMLscene extends CGFscene {
             let light = this.graph.lights[i];
             console.log(light)
             if(light.type == "omni"){
+                
                 this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
                 this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
                 this.lights[i].setDiffuse(light.diffuse.r, light.diffuse.g, light.diffuse.b, light.diffuse.a);
                 this.lights[i].setSpecular(light.specular.r, light.specular.g, light.specular.b, light.specular.a);
-                if(light.enabled){
+                console.log("Light1")
+                console.log(light);
+                if(light.enabled == true){
                     this.lights[i].setVisible(true);
                     this.lights[i].enable();
+                    this.lights[i].update();
+                    console.log("LIGHT");
+                    console.log(this.lights[i]);
+
                 }
                 else{
-                    this.lights[i].setVisible(true);
+                    this.lights[i].setVisible(false);
                     this.lights[i].disable();
                 }
             }
