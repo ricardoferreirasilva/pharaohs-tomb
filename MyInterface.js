@@ -24,7 +24,9 @@ class MyInterface extends CGFinterface {
 
         return true;
     }
-
+    changeCamera(camera){
+        this.setActiveCamera(camera);
+    }
     /**
      * Adds a folder containing the IDs of the lights passed as parameter.
      * @param {array} lights

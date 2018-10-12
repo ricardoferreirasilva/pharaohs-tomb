@@ -27,8 +27,8 @@ class XMLscene extends CGFscene {
         this.initCameras();
 
         // Materials
-         this.materialDefault = new CGFappearance(this);
-         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
+        this.materialDefault = new CGFappearance(this);
+        this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
 
@@ -53,7 +53,7 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     placeCamera(){
-        /*
+        
         let chosenCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));;
         this.graph.views.perspectives.forEach(perspective => {
             if(perspective.id == this.graph.views.default){
@@ -63,8 +63,7 @@ class XMLscene extends CGFscene {
             }
         });
         this.camera = chosenCamera;
-        */
-
+        this.interface.changeCamera(this.camera);
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
