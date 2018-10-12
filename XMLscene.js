@@ -31,6 +31,7 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
+        this.materialDefault.loadTexture("./scenes/images/leaves.jpg");
 
 
 
@@ -290,6 +291,7 @@ class XMLscene extends CGFscene {
         newMaterial.setAmbient(material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a);
         newMaterial.setDiffuse(material.diffuse.r, material.diffuse.g, material.diffuse.b, material.diffuse.a);
         newMaterial.setSpecular(material.specular.r, material.specular.g, material.specular.b, material.specular.a);
+        newMaterial.loadTexture("./scenes/images/leaves.jpg");
         newMaterial.apply();
     }
 }
