@@ -71,6 +71,7 @@ class XMLscene extends CGFscene {
     initLights() {
         // Global ambient light
         this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
+        this.gl.clearColor(this.graph.ambient.background.r,this.graph.ambient.background.g,this.graph.ambient.background.b,this.graph.ambient.background.a);
         // Reads the lights from the scene graph.
         for (let i = 0; i < this.graph.lights.length; i++) {
             let light = this.graph.lights[i];
@@ -81,15 +82,10 @@ class XMLscene extends CGFscene {
                 this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
                 this.lights[i].setDiffuse(light.diffuse.r, light.diffuse.g, light.diffuse.b, light.diffuse.a);
                 this.lights[i].setSpecular(light.specular.r, light.specular.g, light.specular.b, light.specular.a);
-                console.log("Light1")
-                console.log(light);
                 if(light.enabled == true){
                     this.lights[i].setVisible(true);
                     this.lights[i].enable();
                     this.lights[i].update();
-                    console.log("LIGHT");
-                    console.log(this.lights[i]);
-
                 }
                 else{
                     this.lights[i].setVisible(false);
@@ -114,6 +110,7 @@ class XMLscene extends CGFscene {
 
         // Setting axis length.
         this.axis = new CGFaxis(this, this.graph.axis_length);
+        this.axis.display();
 
         // TODO: Change ambient and background details according to parsed graph
         console.log("init lights")
