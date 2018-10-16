@@ -31,7 +31,7 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
-
+        this.defaultTexture = new CGFtexture(this,"./scenes/images/default.jpg")
 
 
 
@@ -134,9 +134,6 @@ class XMLscene extends CGFscene {
         // TODO: Change ambient and background details according to parsed graph
         this.initLights();
 
-        // Adds lights group.
-        //this.interface.addLightsGroup(this.graph.lights);
-
         //load textures
         for (let i = 0; i < this.graph.textures.length; i++) {
             let texture = this.graph.textures[i];
@@ -147,7 +144,6 @@ class XMLscene extends CGFscene {
         }
 
         this.sceneInited = true;
-        this.egyptTexture = new CGFtexture(this,"./scenes/images/egypt1.jpg")
     }
 
 
@@ -179,7 +175,7 @@ class XMLscene extends CGFscene {
             //this.floor.display();
             for (let i = 0; i < this.graph.components.length; i++) {
                 this.pushMatrix();
-                this.displayComponent(this.graph.components[i]);   
+                this.displayComponent(this.graph.components[i],this.materialDefault,this.defaultTexture);   
                 this.popMatrix();
             }
         }
@@ -189,7 +185,7 @@ class XMLscene extends CGFscene {
     // visit (matriz,material,textura)
     // este componente tem um material? se sim display it, caso contrario mostrar o que vem como arg
     // same para a textura.
-    displayComponent(component){
+    displayComponent(component,material,texture){
         //Apply transformations
         for (let i = 0; i < component.transformations.length; i++) {
             let transform = component.transformations[i];
@@ -210,7 +206,11 @@ class XMLscene extends CGFscene {
             else if(transform.type == "rotate") this.applyTransformation(transform);
             else if(transform.type == "scale") this.applyTransformation(transform);
         }
-        //Apply materials
+        //Things to pass to children;
+        let foundMaterial = this.materialDefault;
+        let foundTexture = this.defaultTexture;
+        let maxS = 1;
+        let maxT = 1;
         for (let i = 0; i < component.materials.length; i++) {
             let child = component.materials[i];
 
@@ -227,16 +227,29 @@ class XMLscene extends CGFscene {
             if(i == materialIndex){
                 for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
                     let currentMaterial = this.graph.materials[i2];
-                    if(child.id == currentMaterial.id){                        
+                    foundMaterial = currentMaterial;
+                    if(child.id == currentMaterial.id){
+                        //Texture                        
                         if(component.texture != undefined){
+                            if(component.texture.id == "inherit"){
+
+                            }
+                            else if(component.texture.id == "none"){
+                                foundTexture = this.defaultTexture;
+                                this.applyMaterial(currentMaterial,this.defaultTexture);
+                            }
                             for (let i = 0; i < this.graph.textures.length; i++) {
                                 let texture = this.graph.textures[i];               
                                 if(component.texture.id == texture.id){
+                                    foundTexture = texture.object;
+                                    maxS = component.texture.length_s;
+                                    maxT = component.texture.length_t;
                                     this.applyMaterial(currentMaterial,texture.object);
                                 }
                             }
                         }else{
-                            this.applyMaterial(currentMaterial,undefined);
+                            foundTexture = this.defaultTexture;
+                            this.applyMaterial(currentMaterial,this.defaultTexture);
                         }
                         //only apply one material
                         break;
@@ -250,19 +263,19 @@ class XMLscene extends CGFscene {
             let child = component.children[i];
             if(child.type == "primitiveref"){
                 
-                this.displayPrimitive(child.id);
+                this.displayPrimitive(child.id,maxT,maxS);
             }
             else if(child.type == "componentref"){
                 for (let i2 = 0; i2 < this.graph.components.length; i2++) {
                     let currentComponent = this.graph.components[i2];
                     if(child.id == currentComponent.id){
-                        this.displayComponent(currentComponent);
+                        this.displayComponent(currentComponent,foundMaterial,foundTexture);
                     }
                 }
             }
         }
     }
-    displayPrimitive(id){
+    displayPrimitive(id,maxT,maxS){
         for (let i = 0; i < this.graph.primitives.length; i++) {
             let primitive = this.graph.primitives[i];
             if(primitive.id == id){
@@ -271,7 +284,7 @@ class XMLscene extends CGFscene {
                     let x2 = primitive.object.x2;
                     let y1 = primitive.object.y1;
                     let y2 = primitive.object.y2;
-                    let obj = new MyQuad(this, x1 , y1, x2, y2, 0, 1.5, 0, 1.5);
+                    let obj = new MyQuad(this, x1 , y1, x2, y2, 0, maxS, 0, maxT);
                     obj.display();
                 }
             }

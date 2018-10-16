@@ -51,7 +51,10 @@
         </spot>
     </lights>
      <textures>
-        <texture id="egypt1" file="egypt1.jpg" />
+         <texture id="egypt1" file="egypt1.jpg" />
+         <texture id="brick1" file="brick1.jpg" />
+         <texture id="sand" file="sand.jpg" />
+         <texture id="sarcophagus1" file="sarcophagus1.jpg" />
     </textures>
     <materials>
         <material id="mat1" shininess = "0" >
@@ -99,19 +102,20 @@
     <component id="floor">
             <transformation>
                 <rotate axis="x" angle="-1.57"/>
-                <scale x="2" y="2" z="1" />
+                <scale x="4" y="4" z="1" />
                 <translate x="1" y="-1" z="0" />
             </transformation>
             <materials>
-               <material id="mat2" />
+               <material id="mat1" />
             </materials>
+             <texture id="sand" length_s="2" length_t="2" />
             <children>
                <primitiveref id="rect1"/>
             </children>
         </component>
         <component id="wall1">
             <transformation>
-                <scale x="2" y="2" z="1" />
+                <scale x="4" y="2" z="1" />
                 <translate x="1" y="1" z="0" />
             </transformation>
             <materials>
@@ -119,20 +123,36 @@
                <material id="mat3" />
                <material id="mat2" />
             </materials>
+            <texture id="egypt1" length_s="2" length_t="2" />
             <children>
                <primitiveref id="rect1"/>
             </children>
         </component>
          <component id="wall2">
             <transformation>
-               <rotate axis="y" angle="1.57"/>
-                <scale x="2" y="2" z="1" />
+                <rotate axis="y" angle="1.57"/>
+                <scale x="4" y="2" z="1" />
                 <translate x="-1" y="1" z="0" />
             </transformation>
             <materials>
                  <material id="mat1" />
             </materials>
             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+         <component id="wall2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="x" angle="-1.57"/>
+                <scale x="1" y="2" z="1" />
+                <translate x="2" y="-2" z="1" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="2" length_t="2" />
             <children>
                 <primitiveref id="rect1"/>
             </children>
