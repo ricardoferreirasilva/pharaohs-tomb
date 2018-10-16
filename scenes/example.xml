@@ -50,12 +50,14 @@
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </spot>
     </lights>
-    <textures></textures>
+     <textures>
+        <texture id="egypt1" file="egypt1.jpg" />
+    </textures>
     <materials>
         <material id="mat1" shininess = "0" >
             <emission r="0.4" g="0.3" b="0.3" a="1" />
-            <ambient r="0.6" g="0.4" b="0.1" a="1" />
-            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <ambient r="0.76" g="0.69" b="0.50" a="1" />
+            <diffuse r="0.76" g="0.69" b="0.50" a="1" />
             <specular r="0" g="0.2" b="0.8" a="1" />
         </material>
         <material id="mat2" shininess = "0.8" >
@@ -130,7 +132,7 @@
             <materials>
                  <material id="mat1" />
             </materials>
-            <texture id="ss" length_s="ff" length_t="ff" />
+            <texture id="egypt1" length_s="2" length_t="2" />
             <children>
                 <primitiveref id="rect1"/>
             </children>

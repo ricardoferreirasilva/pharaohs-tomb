@@ -31,8 +31,6 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
-        this.materialDefault.loadTexture("./scenes/images/egypt1.jpg");
-
 
 
 
@@ -127,8 +125,6 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        console.log(this.graph.components);
-        console.log(this.graph.transformations);
         this.placeCamera();
 
         // Setting axis length.
@@ -136,13 +132,22 @@ class XMLscene extends CGFscene {
         this.axis.display();
 
         // TODO: Change ambient and background details according to parsed graph
-        console.log("init lights")
         this.initLights();
 
         // Adds lights group.
         //this.interface.addLightsGroup(this.graph.lights);
 
+        //load textures
+        for (let i = 0; i < this.graph.textures.length; i++) {
+            let texture = this.graph.textures[i];
+            let path = "./scenes/images/" + this.graph.textures[i].file;
+            this.graph.textures[i].object = new CGFtexture(this,path);
+
+            
+        }
+
         this.sceneInited = true;
+        this.egyptTexture = new CGFtexture(this,"./scenes/images/egypt1.jpg")
     }
 
 
@@ -222,8 +227,17 @@ class XMLscene extends CGFscene {
             if(i == materialIndex){
                 for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
                     let currentMaterial = this.graph.materials[i2];
-                    if(child.id == currentMaterial.id){
-                        this.applyMaterial(currentMaterial);
+                    if(child.id == currentMaterial.id){                        
+                        if(component.texture != undefined){
+                            for (let i = 0; i < this.graph.textures.length; i++) {
+                                let texture = this.graph.textures[i];               
+                                if(component.texture.id == texture.id){
+                                    this.applyMaterial(currentMaterial,texture.object);
+                                }
+                            }
+                        }else{
+                            this.applyMaterial(currentMaterial,undefined);
+                        }
                         //only apply one material
                         break;
                     }
@@ -286,12 +300,14 @@ class XMLscene extends CGFscene {
             }
         }
     }
-    applyMaterial(material){
+    applyMaterial(material,texture){
         let newMaterial = new CGFappearance(this);
         newMaterial.setAmbient(material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a);
         newMaterial.setDiffuse(material.diffuse.r, material.diffuse.g, material.diffuse.b, material.diffuse.a);
         newMaterial.setSpecular(material.specular.r, material.specular.g, material.specular.b, material.specular.a);
-        newMaterial.loadTexture("./scenes/images/leaves.jpg");
+        if(texture != undefined){
+            newMaterial.setTexture(texture);
+        }
         newMaterial.apply();
     }
 }

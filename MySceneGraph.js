@@ -146,6 +146,8 @@ class MySceneGraph {
             else {
                 if (index != TEXTURES_INDEX)
                     this.onXMLMinorError("tag <textures> out of order");
+                if ((error = this.parseTextures(nodes[index])) != null)
+                    return error;
         }
 
         // <MATERIALS>
@@ -423,6 +425,21 @@ class MySceneGraph {
         }
         this.lights.push(lightObject);
     }
+    parseTextures(textures){
+        this.textures = [];
+        let children = textures.children;
+        for (var i = 0; i < children.length; i++) {
+            let texture = children[i];
+            if(texture.nodeName != "texture"){
+                this.onXMLMinorError("Unknown materials tag :" + texture.nodeName);
+            }
+            else{
+                let id = this.reader.getString(texture, 'id');
+                let file = this.reader.getString(texture, 'file');
+                this.textures.push({id:id,file:file});
+            }
+        }
+    }
     parseMaterials(materials){
         this.materials = [];
         let children = materials.children;
@@ -576,6 +593,12 @@ class MySceneGraph {
                     }
 
                 }
+            }
+            else if(property.nodeName == "texture"){
+                let id =  this.reader.getString(property, 'id');
+                let length_s =  this.reader.getFloat(property, 'length_s');
+                let length_t =  this.reader.getFloat(property, 'length_t');
+                componentObject.texture = {id:id,length_s:length_s,length_t:length_t};
             }
             else if(property.nodeName == "transformation"){
                 let grandchildren = property.children;
