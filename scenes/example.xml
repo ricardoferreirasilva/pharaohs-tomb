@@ -15,7 +15,7 @@
     <!-- deve definir-se um objeto para raiz da arvore, assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
     <scene root="scene" axis_length="5.0" />
-    <views default="vi3" >
+    <views default="view3" >
         <perspective id="view1" angle="0.4" near="0.1" far="500">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
@@ -24,7 +24,7 @@
             <from x="40" y="40" z="40" />
             <to x="0" y="0" z="0" />
         </perspective>
-        <ortho id="vi3" near="0" far="5" left="5" right="5" top="5" bottom="5" >
+        <ortho id="view3" near="0" far="5" left="5" right="5" top="5" bottom="5" >
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
         </ortho>
@@ -35,25 +35,36 @@
         <background r="0.5" g="0.5" b="0.5" a="1.0" />
     </ambient>
     <lights>
-
-        <omni id="light1" enabled="0" >
-            <location x="150" y="150" z="150" w="1" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+        <omni id="light0" enabled="1">
+            <location x="-20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </omni>
-        <spot id="light2" enabled="1" angle="0.3" exponent="0.2">
-            <location x="150" y="150" z="150" w="1.0" />
-            <target x="0" y="0" z="0" />
-            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
-        </spot>
+        <omni id="light1" enabled="1">
+            <location x="-20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="light2" enabled="1">
+            <location x="20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="light3" enabled="1">
+            <location x="20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
     </lights>
      <textures>
          <texture id="egypt1" file="egypt1.jpg" />
          <texture id="brick1" file="brick1.jpg" />
          <texture id="sand" file="sand.jpg" />
+         <texture id="gold" file="gold.jpg" />
          <texture id="sarcophagus1" file="sarcophagus1.jpg" />
     </textures>
     <materials>
@@ -70,6 +81,12 @@
             <specular r="0" g="0.2" b="0.8" a="1" />
         </material>
         <material id="mat3" shininess = "0.1" >
+            <emission r="0.4" g="0.3" b="0.3" a="1" />
+            <ambient r="0.1" g="0.8" b="0.3" a="1" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+            <specular r="0" g="0.2" b="0.8" a="1" />
+        </material>
+        <material id="goldMaterial" shininess = "0.5" >
             <emission r="0.4" g="0.3" b="0.3" a="1" />
             <ambient r="0.1" g="0.8" b="0.3" a="1" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1" />
@@ -118,9 +135,21 @@
                <componentref id="floor"/>
                <componentref id="wall1"/>
                <componentref id="wall2"/>
+               <componentref id="sarcophagus"/>
+            </children>
+        </component>
+         <component id="sarcophagus">
+            <transformation>
+                 <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+            </materials>
+            <children>
                <componentref id="sarcophagus1"/>
                <componentref id="sarcophagus2"/>
                <componentref id="sarcophagus3"/>
+               <componentref id="sarcophagus4"/>
+               <componentref id="sarcophagus5"/>
             </children>
         </component>
         <component id="floor">
@@ -174,9 +203,9 @@
                 <translate x="2" y="-2" z="1" />
             </transformation>
             <materials>
-                 <material id="mat1" />
+                 <material id="goldMaterial" />
             </materials>
-            <texture id="brick1" length_s="2" length_t="2" />
+            <texture id="gold" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="rect1"/>
             </children>
@@ -200,6 +229,32 @@
                 <rotate axis="y" angle="1.57"/>
                 <scale x="2" y="0.5" z="1" />
                 <translate x="-2" y="1" z="3" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+        <component id="sarcophagus4">
+            <transformation>
+                <scale x="1" y="-0.5" z="1" />
+                <translate x="2" y="-1" z="2" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+          <component id="sarcophagus5">
+            <transformation>
+                <scale x="1" y="0.5" z="1" />
+                <translate x="2" y="1" z="6" />
             </transformation>
             <materials>
                  <material id="mat1" />

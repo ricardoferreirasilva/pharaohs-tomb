@@ -227,35 +227,45 @@ class XMLscene extends CGFscene {
                 materialIndex = this.interface.materialCount - (aid1 * component.materials.length)
             }
             if(i == materialIndex){
-                for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
-                    let currentMaterial = this.graph.materials[i2];
-                    foundMaterial = currentMaterial;
-                    if(child.id == currentMaterial.id){
-                        //Texture                        
-                        if(component.texture != undefined){
-                            if(component.texture.id == "inherit"){
 
-                            }
-                            else if(component.texture.id == "none"){
-                                foundTexture = this.defaultTexture;
-                                this.applyMaterial(currentMaterial,this.defaultTexture);
-                            }
-                            for (let i = 0; i < this.graph.textures.length; i++) {
-                                let texture = this.graph.textures[i];               
-                                if(component.texture.id == texture.id){
-                                    foundTexture = texture.object;
-                                    maxS = component.texture.length_s;
-                                    maxT = component.texture.length_t;
-                                    this.applyMaterial(currentMaterial,texture.object);
-                                }
-                            }
-                        }else{
-                            foundTexture = this.defaultTexture;
-                            this.applyMaterial(currentMaterial,this.defaultTexture);
+                let childMaterial = this.materialDefault;
+                let childTexture = this.defaultTexture;
+                if(child.id == "inherit"){
+                    childMaterial = material;
+                }
+                else{
+                    for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
+                        let currentMaterial = this.graph.materials[i2];
+                        foundMaterial = currentMaterial;
+                        if(child.id == currentMaterial.id){
+                            childMaterial = currentMaterial;
+                            break;
                         }
-                        //only apply one material
-                        break;
                     }
+                }
+                // Calculate the proper texture for this child
+                if(component.texture != undefined){
+                    if(component.texture.id == "inherit"){
+                        //Apply parent texture.
+                        this.applyMaterial(childMaterial,texture);
+                    }
+                    else if(component.texture.id == "none"){
+                        //Apply default texture.
+                        this.applyMaterial(childMaterial,this.defaultTexture);
+                    }
+                    for (let i = 0; i < this.graph.textures.length; i++) {
+                        //Find chosen texture by ID.
+                        let texture = this.graph.textures[i];               
+                        if(component.texture.id == texture.id){
+                            foundTexture = texture.object;
+                            maxS = component.texture.length_s;
+                            maxT = component.texture.length_t;
+                            this.applyMaterial(childMaterial,texture.object);
+                        }
+                    }
+                }
+                else{
+                    this.applyMaterial(currentMaterial,this.defaultTexture);
                 }
             }
         }
