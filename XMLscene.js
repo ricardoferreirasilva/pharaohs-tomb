@@ -287,6 +287,22 @@ class XMLscene extends CGFscene {
                     let obj = new MyQuad(this, x1 , y1, x2, y2, 0, maxS, 0, maxT);
                     obj.display();
                 }
+                else if(primitive.object.type == "triangle"){
+                    let x1 = primitive.object.x1;
+                    let y1 = primitive.object.y1;
+                    let z1 = primitive.object.z1;
+
+                    let x2 = primitive.object.x2;
+                    let y2 = primitive.object.y2;
+                    let z2 = primitive.object.z2;
+
+                    let x3 = primitive.object.x3;
+                    let y3 = primitive.object.y3;
+                    let z3 = primitive.object.z3;
+
+                    let obj = new MyTriangle2(this,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+                    obj.display();
+                }
             }
         }
     }

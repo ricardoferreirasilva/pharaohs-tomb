@@ -97,6 +97,16 @@
         <primitive id="rect2">
             <rectangle x1="1.0" y1="1.0" x2="3.0" y2="3.0" />
         </primitive >
+        <primitive id="tri1">
+            <triangle x1="0" y1="4" z1="0"
+            x2="0" y2="0" z2="0"
+            x3="0" y3="0" z3="1" />
+        </primitive >
+        <primitive id="tri2">
+            <triangle x1="0" y1="4" z1="0"
+            x2="0" y2="0" z2="0"
+            x3="0" y3="0" z3="-1" />
+        </primitive >
     </primitives >
     <components>
     <component id="floor">
@@ -142,7 +152,7 @@
                 <primitiveref id="rect1"/>
             </children>
         </component>
-         <component id="wall2">
+         <component id="wall3">
             <transformation>
                 <translate x="0" y="0" z="0" />
                 <rotate axis="x" angle="-1.57"/>
@@ -157,6 +167,61 @@
                 <primitiveref id="rect1"/>
             </children>
         </component>
+         <component id="wall3">
+            <transformation>
+                <rotate axis="y" angle="-1.57"/>
+                <scale x="2" y="0.5" z="1" />
+                <translate x="2" y="1" z="-1" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+        <component id="wall4">
+            <transformation>
+                <rotate axis="y" angle="1.57"/>
+                <scale x="2" y="0.5" z="1" />
+                <translate x="-2" y="1" z="3" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="2" length_t="2" />
+            <children>
+                <primitiveref id="rect1"/>
+            </children>
+        </component>
+         <component id="triangle1">
+            <transformation>
+                  <translate x="0" y="0" z="2" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="tri1"/>
+            </children>
+        </component>
+        <component id="triangle2">
+            <transformation>
+                 <rotate axis="y" angle="-1.57"/>
+                  <translate x="0.05" y="0" z="-2.2" />
+            </transformation>
+            <materials>
+                 <material id="mat1" />
+            </materials>
+            <texture id="brick1" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="tri1"/>
+            </children>
+        </component>
     </components>
+    
+   
 
 </yas>

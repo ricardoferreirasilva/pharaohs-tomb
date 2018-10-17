@@ -195,7 +195,7 @@ class MySceneGraph {
     }
     parseScene(scene){
 
-        this.root = this.reader.getString(scene, 'root');
+        this.root = this.validateString(scene,"root","treeStart");
         if (this.root == null)
             return "no ID defined for the root.";
         this.axis_length = this.reader.getFloat(scene, 'axis_length');
@@ -551,6 +551,21 @@ class MySceneGraph {
                         currentPrimitive.object = {type:object.nodeName,x1:x1,y1:y1,x2:x2,y2:y2};
                         this.primitives.push(currentPrimitive);
                     }
+                    else if(object.nodeName == "triangle"){
+                        let x1 =  this.reader.getFloat(object, 'x1');
+                        let x2 =  this.reader.getFloat(object, 'x2');
+                        let x3 =  this.reader.getFloat(object, 'x3');
+                        
+                        let y1 =  this.reader.getFloat(object, 'y1');
+                        let y2 =  this.reader.getFloat(object, 'y2');
+                        let y3 =  this.reader.getFloat(object, 'y3');
+
+                        let z1 =  this.reader.getFloat(object, 'z1');
+                        let z2 =  this.reader.getFloat(object, 'z2');
+                        let z3 =  this.reader.getFloat(object, 'z3');
+                        currentPrimitive.object = {type:object.nodeName,x1:x1,x2:x2,x3:x3,y1:y1,y2:y2,y3:y3,z1:z1,z2:z2,z3:z3};
+                        this.primitives.push(currentPrimitive);
+                    }
                 }
 
             }
@@ -694,6 +709,15 @@ class MySceneGraph {
                 break;
             default:
                 break;
+        }
+    }
+    validateString(node,field,defaultValue){
+        try {
+            let value = this.reader.getString(node, field);
+            return value;
+        } catch (error) {
+            this.onXMLMinorError("Could not parse a string from field : " + field + ". Using default value: " + defaultValue);
+            return defaultValue;
         }
     }
 }
