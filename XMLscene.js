@@ -174,9 +174,11 @@ class XMLscene extends CGFscene {
             this.graph.displayScene();
             //this.floor.display();
             for (let i = 0; i < this.graph.components.length; i++) {
-                this.pushMatrix();
-                this.displayComponent(this.graph.components[i],this.materialDefault,this.defaultTexture);   
-                this.popMatrix();
+                if(this.graph.components[i].id == this.graph.root){
+                    this.pushMatrix();
+                    this.displayComponent(this.graph.components[i],this.materialDefault,this.defaultTexture);   
+                    this.popMatrix();
+                }
             }
         }
 
@@ -269,7 +271,9 @@ class XMLscene extends CGFscene {
                 for (let i2 = 0; i2 < this.graph.components.length; i2++) {
                     let currentComponent = this.graph.components[i2];
                     if(child.id == currentComponent.id){
+                        this.pushMatrix();
                         this.displayComponent(currentComponent,foundMaterial,foundTexture);
+                        this.popMatrix();
                     }
                 }
             }

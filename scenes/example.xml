@@ -14,7 +14,7 @@
 <yas>
     <!-- deve definir-se um objeto para raiz da arvore, assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
-    <scene root="cube1" axis_length="5.0" />
+    <scene root="scene" axis_length="5.0" />
     <views default="vi3" >
         <perspective id="view1" angle="0.4" near="0.1" far="500">
             <from x="15" y="15" z="15" />
@@ -109,7 +109,21 @@
         </primitive >
     </primitives >
     <components>
-    <component id="floor">
+        <component id="scene">
+            <transformation>
+            </transformation>
+            <materials>
+            </materials>
+            <children>
+               <componentref id="floor"/>
+               <componentref id="wall1"/>
+               <componentref id="wall2"/>
+               <componentref id="sarcophagus1"/>
+               <componentref id="sarcophagus2"/>
+               <componentref id="sarcophagus3"/>
+            </children>
+        </component>
+        <component id="floor">
             <transformation>
                 <rotate axis="x" angle="-1.57"/>
                 <scale x="4" y="4" z="1" />
@@ -152,7 +166,7 @@
                 <primitiveref id="rect1"/>
             </children>
         </component>
-         <component id="wall3">
+         <component id="sarcophagus1">
             <transformation>
                 <translate x="0" y="0" z="0" />
                 <rotate axis="x" angle="-1.57"/>
@@ -167,7 +181,7 @@
                 <primitiveref id="rect1"/>
             </children>
         </component>
-         <component id="wall3">
+         <component id="sarcophagus2">
             <transformation>
                 <rotate axis="y" angle="-1.57"/>
                 <scale x="2" y="0.5" z="1" />
@@ -181,7 +195,7 @@
                 <primitiveref id="rect1"/>
             </children>
         </component>
-        <component id="wall4">
+        <component id="sarcophagus3">
             <transformation>
                 <rotate axis="y" angle="1.57"/>
                 <scale x="2" y="0.5" z="1" />
