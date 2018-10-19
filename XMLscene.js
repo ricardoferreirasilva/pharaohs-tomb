@@ -169,9 +169,6 @@ class XMLscene extends CGFscene {
 
 
         if (this.sceneInited) {
-           
-            // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
             //this.floor.display();
             for (let i = 0; i < this.graph.components.length; i++) {
                 if(this.graph.components[i].id == this.graph.root){
@@ -182,7 +179,6 @@ class XMLscene extends CGFscene {
             }
         }
 
-        // ---- END Background, camera and axis setup
     }
     // visit (matriz,material,textura)
     // este componente tem um material? se sim display it, caso contrario mostrar o que vem como arg

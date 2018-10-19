@@ -200,7 +200,7 @@ class MySceneGraph {
         this.views = {};
         this.views.perspectives = [];
         this.views.orthopedics = [];
-        this.views.default = this.reader.getString(views, 'default');
+        this.views.default = this.validateString(views,'default',"view1");
         if (this.views.default == null)
             return "no default view defined.";
         var nodes = views.children;
@@ -209,7 +209,7 @@ class MySceneGraph {
             let viewName = viewNode.nodeName;
             if(viewName == "perspective"){
                 let children = viewNode.children;
-                let id =  this.reader.getString(viewNode, 'id');
+                let id = this.validateString(viewNode,"id","perspective1");
                 let near =  this.reader.getFloat(viewNode, 'near');
                 this.validateField("float",near);
                 let far =  this.reader.getFloat(viewNode, 'far');
@@ -242,7 +242,7 @@ class MySceneGraph {
             }
             else if(viewName == "ortho"){
                 let children = viewNode.children;
-                let id =  this.reader.getString(viewNode, 'id');
+                let id = this.validateString(viewNode,"id","orthopedic1");
                 let near =  this.reader.getFloat(viewNode, 'near');
                 this.validateField("float",near);
                 let far =  this.reader.getFloat(viewNode, 'far');
@@ -337,7 +337,7 @@ class MySceneGraph {
      * @param {XML element} light Object that contains a spot light element.
      */
     parseSpotLight(light){
-        let id = this.reader.getString(light, 'id');
+        let id = this.validateString(light,"id","light1");
         let angle =  this.reader.getFloat(light, 'angle');
         let exponent =  this.reader.getFloat(light, 'exponent');
         let enabled = this.reader.getBoolean(light, 'enabled');
@@ -391,7 +391,7 @@ class MySceneGraph {
      * @param {XML element} light Object that contains a omni light element.
      */
     parseOmniLight(light){
-        let id = this.reader.getString(light, 'id');
+        let id = this.validateString(light,"id","light2");
         let enabled = this.reader.getBoolean(light, 'enabled');
         let lightObject = {type:"omni",id:id,enabled:enabled,location:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
         let children = light.children;
@@ -445,8 +445,8 @@ class MySceneGraph {
                 this.onXMLMinorError("Unknown materials tag :" + texture.nodeName);
             }
             else{
-                let id = this.reader.getString(texture, 'id');
-                let file = this.reader.getString(texture, 'file');
+                let id = this.validateString(texture,"id","texture1");
+                let file = this.validateString(texture,"file","file1");
                 this.textures.push({id:id,file:file});
             }
         }
@@ -464,7 +464,7 @@ class MySceneGraph {
                 this.onXMLMinorError("Unknown materials tag :" + material.nodeName);
             }
             else{
-                let id = this.reader.getString(material, 'id');
+                let id = this.validateString(material,"id","material1");
                 let shininess =  this.reader.getFloat(material, 'shininess');
                 let materialObject = {id:id,shininess:shininess,emission:undefined,ambient:undefined,diffuse:undefined,specular:undefined};
                 let grandchildren = material.children;
@@ -516,7 +516,7 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
             let transform = children[i];
             let nodeName = transform.nodeName;
-            let id = this.reader.getString(transform, 'id');
+            let id = this.validateString(transform,"id","transformation1");
             let transformationObject = {id:id,operations:[]};
             let grandchildren = transform.children;
             for (var i2 = 0; i2 < grandchildren.length; i2++) {
@@ -529,7 +529,7 @@ class MySceneGraph {
                 }
                 else if(operation.nodeName == "rotate"){
                     let angle =  this.reader.getFloat(operation, 'angle');
-                    let axis =  this.reader.getString(operation, 'axis');
+                    let axis = this.validateString(operation,"axis","x");
                     transformationObject.operations.push({type:"rotate",axis:axis,angle:angle});
                 }
                 else if(operation.nodeName == "scale"){
@@ -542,8 +542,11 @@ class MySceneGraph {
             }
             this.transformations.push(transformationObject)
         }
-        console.log(this.transformations);
     }
+    /**
+     * Parse the primitives element into a data structure.
+     * @param {XML element} primitives Object that contains the primitives element.
+     */
     parsePrimitives(primitives){
         let children = primitives.children;
         this.primitives = [];
@@ -553,7 +556,7 @@ class MySceneGraph {
                 this.onXMLMinorError("Unknown ambient tag :" + child.nodeName);
             }
             else{
-                let id = this.reader.getString(primitive, 'id');
+                let id = this.validateString(primitive,"id","primitive1");
                 let objects = primitive.children;
                 let currentPrimitive = {id:id,object:undefined};
                 if(objects.length != 1){
@@ -588,8 +591,11 @@ class MySceneGraph {
 
             }
         }
-        console.log(this.primitives);
     }
+    /**
+     * Parse the components element into a data structure.
+     * @param {XML element} components Object that contains the components element.
+     */
     parseComponents(components){
         this.components = [];
         let children = components.children;
@@ -604,8 +610,12 @@ class MySceneGraph {
         }
         
     }
+    /**
+     * Parse a component element into a data structure.
+     * @param {XML element} component Object that contains a component element.
+     */
     parseComponent(component){
-        let id =  this.reader.getString(component, 'id');
+        let id = this.validateString(component,"id","component1");
         let componentObject = {id:id,transformations:[],materials:[],texture:undefined,children:[]};
         let children = component.children;
         for (var i = 0; i < children.length; i++) {
@@ -617,18 +627,18 @@ class MySceneGraph {
                     let grandchild = grandchildren[x];
                     //Primitiveref parsing
                     if(grandchild.nodeName == "primitiveref"){
-                        let id =  this.reader.getString(grandchild, 'id');
+                        let id = this.validateString(grandchild,"id","primitiveref1");
                         componentObject.children.push({type:"primitiveref",id:id})
                     }
                     else if(grandchild.nodeName == "componentref"){
-                        let id =  this.reader.getString(grandchild, 'id');
+                        let id = this.validateString(grandchild,"id","componentref1");
                         componentObject.children.push({type:"componentref",id:id})
                     }
 
                 }
             }
             else if(property.nodeName == "texture"){
-                let id =  this.reader.getString(property, 'id');
+                let id = this.validateString(property,"id","texture1");
                 let length_s =  this.reader.getFloat(property, 'length_s');
                 let length_t =  this.reader.getFloat(property, 'length_t');
                 componentObject.texture = {id:id,length_s:length_s,length_t:length_t};
@@ -639,7 +649,7 @@ class MySceneGraph {
                     let grandchild = grandchildren[x];
                     //Primitiveref parsing
                     if(grandchild.nodeName == "transformationref"){
-                        let id =  this.reader.getString(grandchild, 'id');
+                        let id = this.validateString(grandchild,"id","transformationref1");
                         componentObject.transformations.push({type:"transformationref",id:id})
                     }
                     else if(grandchild.nodeName == "translate"){
@@ -656,7 +666,7 @@ class MySceneGraph {
                     }
                     else if(grandchild.nodeName == "rotate"){
                         let angle =  this.reader.getFloat(grandchild, 'angle');
-                        let axis =  this.reader.getString(grandchild, 'axis');
+                        let axis = this.validateString(grandchild,"axis","x");
                         componentObject.transformations.push({type:"rotate",axis:axis,angle:angle});
                     }
 
@@ -668,7 +678,7 @@ class MySceneGraph {
                     let grandchild = grandchildren[x];
                     //Primitiveref parsing
                     if(grandchild.nodeName == "material"){
-                        let id =  this.reader.getString(grandchild, 'id');
+                        let id = this.validateString(grandchild,"id","material1");
                         componentObject.materials.push({id:id})
                     }
                 }
@@ -707,16 +717,6 @@ class MySceneGraph {
      */
     log(message) {
         console.log("   " + message);
-    }
-
-    /**
-     * Displays the scene, processing each node, starting in the root node.
-     */
-    displayScene() {
-        // entry point for graph rendering
-        //TODO: Render loop starting at root of graph
-        //this.floor.display();
-        
     }
     validateField(type,value){
         switch (type) {
