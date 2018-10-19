@@ -210,8 +210,7 @@ class MySceneGraph {
             if(viewName == "perspective"){
                 let children = viewNode.children;
                 let id = this.validateString(viewNode,"id","perspective1");
-                let near =  this.reader.getFloat(viewNode, 'near');
-                this.validateField("float",near);
+                let near = this.validateFloat(viewNode,"near",0.4);
                 let far =  this.reader.getFloat(viewNode, 'far');
                 let angle =  this.reader.getFloat(viewNode, 'angle');
                 
@@ -739,6 +738,27 @@ class MySceneGraph {
         try {
             let value = this.reader.getString(node, field);
             return value;
+        } catch (error) {
+            this.onXMLMinorError("Could not parse a string from field : " + field + ". Using default value: " + defaultValue);
+            return defaultValue;
+        }
+    }
+    /**
+     * Reads a string value from a xml node.
+     * @param {XML element} node XML node to read.
+     * @param {float} field XML field to read.
+     * @param {float} defaultValue Default value if the read
+     */
+    validateFloat(node,field,defaultValue){
+        try {
+            let value = this.reader.getString(node, field);
+            if (!(value != null && !isNaN(value))) {
+                this.onXMLMinorError("Could not parse a float from field : " + field + ". Using default value: " + defaultValue);
+                return defaultValue;
+            }
+            else{
+                return value;
+            }
         } catch (error) {
             this.onXMLMinorError("Could not parse a string from field : " + field + ". Using default value: " + defaultValue);
             return defaultValue;

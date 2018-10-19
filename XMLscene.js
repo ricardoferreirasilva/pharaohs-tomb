@@ -180,9 +180,12 @@ class XMLscene extends CGFscene {
         }
 
     }
-    // visit (matriz,material,textura)
-    // este componente tem um material? se sim display it, caso contrario mostrar o que vem como arg
-    // same para a textura.
+    /**
+     * Displays a component and its children recursively.
+     * @param {component} component Component to display.
+     * @param {material} material Parent material.
+     * @param {texture} texture Parent texture.
+     */
     displayComponent(component,material,texture){
         //Apply transformations
         for (let i = 0; i < component.transformations.length; i++) {
@@ -285,6 +288,12 @@ class XMLscene extends CGFscene {
             }
         }
     }
+    /**
+     * Displays a primitive.
+     * @param {id} id Primitive id.
+     * @param {maxT} maxT Maximum T for texcoords.
+     * @param {maxS} maxS Maximum S for texcoords.
+     */
     displayPrimitive(id,maxT,maxS){
         for (let i = 0; i < this.graph.primitives.length; i++) {
             let primitive = this.graph.primitives[i];
@@ -316,6 +325,10 @@ class XMLscene extends CGFscene {
             }
         }
     }
+    /**
+     * Applies a transformation
+     * @param {transformation} transformation transformation.
+     */
     applyTransformation(transformation){
         if(transformation.type == "translate"){
             this.translate(transformation.x,transformation.y,transformation.z);
@@ -339,6 +352,11 @@ class XMLscene extends CGFscene {
             }
         }
     }
+    /**
+     * Applies a material and texture.
+     * @param {material} material Material to apply..
+     * @param {texture} texture Texture to apply.
+     */
     applyMaterial(material,texture){
         let newMaterial = new CGFappearance(this);
         newMaterial.setAmbient(material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a);
