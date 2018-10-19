@@ -47,11 +47,11 @@ class MySceneGraph {
     }
 
 
-    /*
+    /**
      * Callback to be executed after successful reading
      */
     onXMLReady() {
-        this.log("XML Loading finished.!!!123");
+        this.log("XML Loading finished.");
         var rootElement = this.reader.xmlDoc.documentElement;
 
         // Here should go the calls for different functions to parse the various blocks
@@ -73,8 +73,6 @@ class MySceneGraph {
      * @param {XML root element} rootElement
      */
     parseXMLFile(rootElement) {
-
-
         if (rootElement.nodeName != "yas")
             return "root tag <yas> missing";
 
@@ -89,7 +87,7 @@ class MySceneGraph {
         // Processes each node, verifying errors.
         let error;
 
-        // <Scenes>
+        // Parsing <Scenes>
         let index;
         if ((index = nodeNames.indexOf("scene")) == -1)
             return "tag <scene> missing";
@@ -100,7 +98,7 @@ class MySceneGraph {
                 return error;
         }
 
-        // <VIEWS>
+        // Parsing <VIEWS>
         if ((index = nodeNames.indexOf("views")) == -1)
             return "tag <views> missing";
         else {
@@ -110,7 +108,7 @@ class MySceneGraph {
                 return error;
         }
 
-        // <VIEWS>
+        // Parsing <AMBIENT>
         if ((index = nodeNames.indexOf("ambient")) == -1)
             return "tag <ambient> missing";
         else {
@@ -119,18 +117,7 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
-
-        
-        // <AMBIENT>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
-        else {
-            if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
-            if ((error = this.parseAmbient(nodes[index])) != null)
-                return error;
-        }
-        // <LIGHTS>
+        // Parsing <LIGHTS>
         if ((index = nodeNames.indexOf("lights")) == -1)
             return "tag <lights> missing";
         else {
@@ -140,7 +127,7 @@ class MySceneGraph {
                 return error;
         }
         
-        // <TEXTURES>
+        // Parsing <TEXTURES>
         if ((index = nodeNames.indexOf("textures")) == -1)
          return "tag <textures> missing";
             else {
@@ -150,7 +137,7 @@ class MySceneGraph {
                     return error;
         }
 
-        // <MATERIALS>
+        // Parsing <MATERIALS>
         if ((index = nodeNames.indexOf("materials")) == -1)
         return "tag <materials> missing";
             else {
@@ -160,7 +147,7 @@ class MySceneGraph {
                     return error;
         }
 
-        // <TRANSFORMATIONS>
+        // Parsing <TRANSFORMATIONS>
         if ((index = nodeNames.indexOf("transformations")) == -1)
         return "tag <transformations> missing";
             else {
@@ -170,7 +157,7 @@ class MySceneGraph {
                     return error;
         }
 
-        // <PRIMITIVES>
+        // Parsing <PRIMITIVES>
         if ((index = nodeNames.indexOf("primitives")) == -1)
             return "tag <primitives> missing";
         else {
@@ -180,7 +167,7 @@ class MySceneGraph {
                 return error;
         }
 
-         // <COMPONENTS>
+         //Parsing  <COMPONENTS>
          if ((index = nodeNames.indexOf("components")) == -1)
             return "tag <components> missing";
             else {
@@ -189,10 +176,11 @@ class MySceneGraph {
                 if ((error = this.parseComponents(nodes[index])) != null)
                     return error;
             }
-
-
-        
     }
+    /**
+     * Parse the scene element into a data structure.
+     * @param {XML element} scene Object that contains the scene element.
+     */
     parseScene(scene){
 
         this.root = this.validateString(scene,"root","treeStart");
@@ -204,6 +192,10 @@ class MySceneGraph {
             this.onXMLMinorError("unable to parse value for axis length; assuming 'axis_length = 3.0'");
         }
     }
+    /**
+     * Parse the views element into a data structure.
+     * @param {XML element} views Object that contains the views element.
+     */
     parseViews(views){
         this.views = {};
         this.views.perspectives = [];
@@ -288,8 +280,11 @@ class MySceneGraph {
                 this.onXMLMinorError("unknown view tag " + viewName);
             }
         }
-        console.log(this.views)
     }
+     /**
+     * Parse the ambient element into a data structure.
+     * @param {XML element} ambient Object that contains the ambient element.
+     */
     parseAmbient(ambient){
         let ambientChildren = ambient.children;
         this.ambient = {ambient: undefined, background: undefined};
@@ -315,6 +310,10 @@ class MySceneGraph {
         }
 
     }
+    /**
+     * Parse the lights element into a data structure.
+     * @param {XML element} lights Object that contains the lights element.
+     */
     parseLights(lights){
         this.lights = [];
         let children = lights.children;
@@ -333,6 +332,10 @@ class MySceneGraph {
 
         }
     }
+     /**
+     * Parse the spot light element into a data structure.
+     * @param {XML element} light Object that contains a spot light element.
+     */
     parseSpotLight(light){
         let id = this.reader.getString(light, 'id');
         let angle =  this.reader.getFloat(light, 'angle');
@@ -383,6 +386,10 @@ class MySceneGraph {
         }
         this.lights.push(lightObject);
     }
+    /**
+     * Parse the omni light element into a data structure.
+     * @param {XML element} light Object that contains a omni light element.
+     */
     parseOmniLight(light){
         let id = this.reader.getString(light, 'id');
         let enabled = this.reader.getBoolean(light, 'enabled');
@@ -425,6 +432,10 @@ class MySceneGraph {
         }
         this.lights.push(lightObject);
     }
+    /**
+     * Parse the textures element into a data structure.
+     * @param {XML element} textures Object that contains textures light element.
+     */
     parseTextures(textures){
         this.textures = [];
         let children = textures.children;
@@ -440,6 +451,10 @@ class MySceneGraph {
             }
         }
     }
+    /**
+     * Parse the materials element into a data structure.
+     * @param {XML element} materials Object that contains the materials element.
+     */
     parseMaterials(materials){
         this.materials = [];
         let children = materials.children;
@@ -490,8 +505,11 @@ class MySceneGraph {
                 this.materials.push(materialObject);
             }
         }
-        console.log(this.materials)
     }
+    /**
+     * Parse the transformations element into a data structure.
+     * @param {XML element} transformations Object that contains the transformations element.
+     */
     parseTransformations(transformations){
         this.transformations = [];
         let children = transformations.children;
@@ -711,6 +729,12 @@ class MySceneGraph {
                 break;
         }
     }
+     /**
+     * Reads a string value from a xml node.
+     * @param {XML element} node XML node to read.
+     * @param {string} field XML field to read.
+     * @param {string} defaultValue Default value if the read
+     */
     validateString(node,field,defaultValue){
         try {
             let value = this.reader.getString(node, field);
