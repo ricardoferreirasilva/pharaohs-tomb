@@ -147,6 +147,7 @@
             </transformation>
             <materials>
             </materials>
+            <texture id="egypt1" length_s="2" length_t="2" />
             <children>
                <componentref id="sarcophagus1"/>
                <componentref id="sarcophagus2"/>
@@ -221,6 +222,7 @@
             </transformation>
             <materials>
                  <material id="mat1" />
+                <material id="mat2" />
             </materials>
             <texture id="egypt1" length_s="2" length_t="2" />
             <children>
@@ -251,7 +253,7 @@
             <materials>
                  <material id="mat1" />
             </materials>
-            <texture id="brick1" length_s="2" length_t="2" />
+            <texture id="inherit" length_s="2" length_t="2" />
             <children>
                 <primitiveref id="rect1"/>
             </children>

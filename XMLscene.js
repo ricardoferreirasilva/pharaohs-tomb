@@ -227,8 +227,10 @@ class XMLscene extends CGFscene {
         let foundTexture = this.defaultTexture;
         let maxS = 1;
         let maxT = 1;
+
+        // First we find the proper material.
         for (let i = 0; i < component.materials.length; i++) {
-            let child = component.materials[i];
+            let material = component.materials[i];
 
             //The material to display
             let materialIndex = 0;
@@ -242,46 +244,51 @@ class XMLscene extends CGFscene {
             }
             if (i == materialIndex) {
 
-                let childMaterial = this.materialDefault;
-                let childTexture = this.defaultTexture;
-                if (child.id == "inherit") {
-                    childMaterial = material;
+                if (material.id == "inherit") {
+                    foundMaterial = material;
                 }
                 else {
                     for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
                         let currentMaterial = this.graph.materials[i2];
                         foundMaterial = currentMaterial;
-                        if (child.id == currentMaterial.id) {
-                            childMaterial = currentMaterial;
+                        if (material.id == currentMaterial.id) {
+                            foundMaterial = currentMaterial;
                             break;
                         }
                     }
                 }
-                // Calculate the proper texture for this child
-                if (component.texture != undefined) {
-                    if (component.texture.id == "inherit") {
-                        //Apply parent texture.
-                        this.applyMaterial(childMaterial, texture);
-                    }
-                    else if (component.texture.id == "none") {
-                        //Apply default texture.
-                        this.applyMaterial(childMaterial, this.defaultTexture);
-                    }
-                    for (let i = 0; i < this.graph.textures.length; i++) {
-                        //Find chosen texture by ID.
-                        let texture = this.graph.textures[i];
-                        if (component.texture.id == texture.id) {
-                            foundTexture = texture.object;
-                            maxS = component.texture.length_s;
-                            maxT = component.texture.length_t;
-                            this.applyMaterial(childMaterial, texture.object);
-                        }
-                    }
-                }
-                else {
-                    this.applyMaterial(currentMaterial, this.defaultTexture);
+            }
+        }
+
+          // After that we find the proper texture for this child
+          if (component.texture != undefined) {
+            if(component.id == "sarcophagus"){
+                console.log(component.id)
+            }
+            if (component.texture.id == "inherit") {
+                //Apply parent texture.
+                this.applyMaterial(foundMaterial, texture);
+                foundTexture = texture;
+            }
+            else if (component.texture.id == "none") {
+                //Apply default texture.
+                this.applyMaterial(foundMaterial, this.defaultTexture);
+                foundTexture =  this.defaultTexture;
+            }
+            for (let i = 0; i < this.graph.textures.length; i++) {
+                //Find chosen texture by ID.
+                let texture = this.graph.textures[i];
+                if (component.texture.id == texture.id) {
+                    foundTexture = texture.object;
+                    maxS = component.texture.length_s;
+                    maxT = component.texture.length_t;
+                    this.applyMaterial(foundMaterial, texture.object);
                 }
             }
+        }
+        else {
+            this.applyMaterial(foundMaterial, this.defaultTexture);
+            foundTexture = this.defaultTexture;
         }
 
         //Process children nodes.
