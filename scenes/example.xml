@@ -47,7 +47,7 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </omni>
-        <omni id="light2" enabled="1">
+        <omni id="light2" enabled="0">
             <location x="20.0" y="40.0" z="20.0" w="1.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />

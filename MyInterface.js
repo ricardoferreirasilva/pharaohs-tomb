@@ -38,8 +38,8 @@ class MyInterface extends CGFinterface {
         group.open();
 
         for(let i=0;i<lights.length;i++){
-            let light = lights[i];
-            group.add(light,"enabled");
+            this.scene.lightValues[i] = lights[i].enabled;
+            group.add(this.scene.lightValues,i);
         }
     }
     processKeyboard( event ){

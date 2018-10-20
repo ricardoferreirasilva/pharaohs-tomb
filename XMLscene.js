@@ -21,7 +21,7 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
-        this.floor = new MyQuad(this, 1 , 1, 1, 1, 0, 1.5, 0, 1.5);
+        this.floor = new MyQuad(this, 1, 1, 1, 1, 0, 1.5, 0, 1.5);
         this.sceneInited = false;
 
         this.initCameras();
@@ -31,7 +31,7 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
-        this.defaultTexture = new CGFtexture(this,"./scenes/images/default.jpg")
+        this.defaultTexture = new CGFtexture(this, "./scenes/images/default.jpg")
 
 
 
@@ -51,22 +51,22 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
-    placeCamera(){
-        
+    placeCamera() {
+
         let chosenCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));;
         this.graph.views.perspectives.forEach(perspective => {
-            if(perspective.id == this.graph.views.default){
+            if (perspective.id == this.graph.views.default) {
                 let position = vec3.fromValues(perspective.from.x, perspective.from.y, perspective.from.z);
                 let direction = vec3.fromValues(perspective.to.x, perspective.to.y, perspective.to.z);
-                chosenCamera= new CGFcamera(perspective.angle, perspective.near, perspective.far,position,direction); 
+                chosenCamera = new CGFcamera(perspective.angle, perspective.near, perspective.far, position, direction);
             }
         });
         this.graph.views.orthopedics.forEach(orthopedic => {
             console.log(orthopedic);
-            if(orthopedic.id == this.graph.views.default){
+            if (orthopedic.id == this.graph.views.default) {
                 let position = vec3.fromValues(orthopedic.from.x, orthopedic.from.y, orthopedic.from.z);
                 let direction = vec3.fromValues(orthopedic.to.x, orthopedic.to.y, orthopedic.to.z);
-                let camera = new CGFcameraOrtho( orthopedic.left, orthopedic.right, orthopedic.bottom, orthopedic.top, orthopedic.near, orthopedic.far, position, direction);
+                let camera = new CGFcameraOrtho(orthopedic.left, orthopedic.right, orthopedic.bottom, orthopedic.top, orthopedic.near, orthopedic.far, position, direction);
             }
         });
         this.camera = chosenCamera;
@@ -78,27 +78,27 @@ class XMLscene extends CGFscene {
     initLights() {
         // Global ambient light
         this.setGlobalAmbientLight(this.graph.ambient.ambient.r, this.graph.ambient.ambient.g, this.graph.ambient.ambient.b, this.graph.ambient.ambient.a);
-        this.gl.clearColor(this.graph.ambient.background.r,this.graph.ambient.background.g,this.graph.ambient.background.b,this.graph.ambient.background.a);
+        this.gl.clearColor(this.graph.ambient.background.r, this.graph.ambient.background.g, this.graph.ambient.background.b, this.graph.ambient.background.a);
         // Reads the lights from the scene graph.
         for (let i = 0; i < this.graph.lights.length; i++) {
             let light = this.graph.lights[i];
-            if(light.type == "omni"){
-                
+            if (light.type == "omni") {
+
                 this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
                 this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
                 this.lights[i].setDiffuse(light.diffuse.r, light.diffuse.g, light.diffuse.b, light.diffuse.a);
                 this.lights[i].setSpecular(light.specular.r, light.specular.g, light.specular.b, light.specular.a);
-                if(light.enabled == true){
+                if (light.enabled == true) {
                     this.lights[i].setVisible(true);
                     this.lights[i].enable();
                     this.lights[i].update();
                 }
-                else{
+                else {
                     this.lights[i].setVisible(false);
                     this.lights[i].disable();
                 }
             }
-            else if(light.type == "spot"){
+            else if (light.type == "spot") {
                 this.lights[i].setSpotCutOff(light.angle);
                 this.lights[i].setSpotExponent(light.exponent);
                 this.lights[i].setPosition(light.location.x, light.location.y, light.location.z, light.location.w);
@@ -106,18 +106,17 @@ class XMLscene extends CGFscene {
                 this.lights[i].setAmbient(light.ambient.r, light.ambient.g, light.ambient.b, light.ambient.a);
                 this.lights[i].setDiffuse(light.diffuse.r, light.diffuse.g, light.diffuse.b, light.diffuse.a);
                 this.lights[i].setSpecular(light.specular.r, light.specular.g, light.specular.b, light.specular.a);
-                if(light.enabled == true){
+                if (light.enabled == true) {
                     this.lights[i].setVisible(true);
                     this.lights[i].enable();
                     this.lights[i].update();
                 }
-                else{
+                else {
                     this.lights[i].setVisible(false);
                     this.lights[i].disable();
                 }
             }
         }
-        this.interface.addLightsGroup(this.lights);
     }
 
 
@@ -132,15 +131,16 @@ class XMLscene extends CGFscene {
         this.axis.display();
 
         // TODO: Change ambient and background details according to parsed graph
+        this.interface.addLightsGroup(this.graph.lights);
         this.initLights();
 
         //load textures
         for (let i = 0; i < this.graph.textures.length; i++) {
             let texture = this.graph.textures[i];
             let path = "./scenes/images/" + this.graph.textures[i].file;
-            this.graph.textures[i].object = new CGFtexture(this,path);
+            this.graph.textures[i].object = new CGFtexture(this, path);
 
-            
+
         }
 
         this.sceneInited = true;
@@ -151,6 +151,7 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+        var i = 0;
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -169,11 +170,26 @@ class XMLscene extends CGFscene {
 
 
         if (this.sceneInited) {
-            //this.floor.display();
+            //Updating light values
+            for (var key in this.lightValues) {
+                if (this.lightValues.hasOwnProperty(key)) {
+                    if (this.lightValues[key]) {
+                        this.lights[i].setVisible(true);
+                        this.lights[i].enable();
+                    }
+                    else {
+                        this.lights[i].setVisible(false);
+                        this.lights[i].disable();
+                    }
+                    this.lights[i].update();
+                    i++;
+                }
+            }
+            //Displaying components
             for (let i = 0; i < this.graph.components.length; i++) {
-                if(this.graph.components[i].id == this.graph.root){
+                if (this.graph.components[i].id == this.graph.root) {
                     this.pushMatrix();
-                    this.displayComponent(this.graph.components[i],this.materialDefault,this.defaultTexture);   
+                    this.displayComponent(this.graph.components[i], this.materialDefault, this.defaultTexture);
                     this.popMatrix();
                 }
             }
@@ -186,16 +202,15 @@ class XMLscene extends CGFscene {
      * @param {material} material Parent material.
      * @param {texture} texture Parent texture.
      */
-    displayComponent(component,material,texture){
+    displayComponent(component, material, texture) {
         //Apply transformations
         for (let i = 0; i < component.transformations.length; i++) {
             let transform = component.transformations[i];
-            
-            if(transform.type == "transformationref"){
+
+            if (transform.type == "transformationref") {
                 for (let i2 = 0; i2 < this.graph.transformations.length; i2++) {
                     let transformation = this.graph.transformations[i2]
-                    if(transformation.id == transform.id)
-                    {
+                    if (transformation.id == transform.id) {
                         for (let i3 = 0; i3 < transformation.operations.length; i3++) {
                             let operation = transformation.operations[i3];
                             this.applyTransformation(operation);
@@ -203,9 +218,9 @@ class XMLscene extends CGFscene {
                     }
                 }
             }
-            else if(transform.type == "translate") this.applyTransformation(transform);
-            else if(transform.type == "rotate") this.applyTransformation(transform);
-            else if(transform.type == "scale") this.applyTransformation(transform);
+            else if (transform.type == "translate") this.applyTransformation(transform);
+            else if (transform.type == "rotate") this.applyTransformation(transform);
+            else if (transform.type == "scale") this.applyTransformation(transform);
         }
         //Things to pass to children;
         let foundMaterial = this.materialDefault;
@@ -217,54 +232,54 @@ class XMLscene extends CGFscene {
 
             //The material to display
             let materialIndex = 0;
-            if(this.interface.materialCount >= 0 && this.interface.materialCount < component.materials.length){
+            if (this.interface.materialCount >= 0 && this.interface.materialCount < component.materials.length) {
                 materialIndex = this.interface.materialCount;
             }
-            else{
+            else {
                 let aid1 = this.interface.materialCount / component.materials.length;
                 aid1 = Math.floor(aid1);
                 materialIndex = this.interface.materialCount - (aid1 * component.materials.length)
             }
-            if(i == materialIndex){
+            if (i == materialIndex) {
 
                 let childMaterial = this.materialDefault;
                 let childTexture = this.defaultTexture;
-                if(child.id == "inherit"){
+                if (child.id == "inherit") {
                     childMaterial = material;
                 }
-                else{
+                else {
                     for (let i2 = 0; i2 < this.graph.materials.length; i2++) {
                         let currentMaterial = this.graph.materials[i2];
                         foundMaterial = currentMaterial;
-                        if(child.id == currentMaterial.id){
+                        if (child.id == currentMaterial.id) {
                             childMaterial = currentMaterial;
                             break;
                         }
                     }
                 }
                 // Calculate the proper texture for this child
-                if(component.texture != undefined){
-                    if(component.texture.id == "inherit"){
+                if (component.texture != undefined) {
+                    if (component.texture.id == "inherit") {
                         //Apply parent texture.
-                        this.applyMaterial(childMaterial,texture);
+                        this.applyMaterial(childMaterial, texture);
                     }
-                    else if(component.texture.id == "none"){
+                    else if (component.texture.id == "none") {
                         //Apply default texture.
-                        this.applyMaterial(childMaterial,this.defaultTexture);
+                        this.applyMaterial(childMaterial, this.defaultTexture);
                     }
                     for (let i = 0; i < this.graph.textures.length; i++) {
                         //Find chosen texture by ID.
-                        let texture = this.graph.textures[i];               
-                        if(component.texture.id == texture.id){
+                        let texture = this.graph.textures[i];
+                        if (component.texture.id == texture.id) {
                             foundTexture = texture.object;
                             maxS = component.texture.length_s;
                             maxT = component.texture.length_t;
-                            this.applyMaterial(childMaterial,texture.object);
+                            this.applyMaterial(childMaterial, texture.object);
                         }
                     }
                 }
-                else{
-                    this.applyMaterial(currentMaterial,this.defaultTexture);
+                else {
+                    this.applyMaterial(currentMaterial, this.defaultTexture);
                 }
             }
         }
@@ -272,16 +287,16 @@ class XMLscene extends CGFscene {
         //Process children nodes.
         for (let i = 0; i < component.children.length; i++) {
             let child = component.children[i];
-            if(child.type == "primitiveref"){
-                
-                this.displayPrimitive(child.id,maxT,maxS);
+            if (child.type == "primitiveref") {
+
+                this.displayPrimitive(child.id, maxT, maxS);
             }
-            else if(child.type == "componentref"){
+            else if (child.type == "componentref") {
                 for (let i2 = 0; i2 < this.graph.components.length; i2++) {
                     let currentComponent = this.graph.components[i2];
-                    if(child.id == currentComponent.id){
+                    if (child.id == currentComponent.id) {
                         this.pushMatrix();
-                        this.displayComponent(currentComponent,foundMaterial,foundTexture);
+                        this.displayComponent(currentComponent, foundMaterial, foundTexture);
                         this.popMatrix();
                     }
                 }
@@ -294,19 +309,19 @@ class XMLscene extends CGFscene {
      * @param {maxT} maxT Maximum T for texcoords.
      * @param {maxS} maxS Maximum S for texcoords.
      */
-    displayPrimitive(id,maxT,maxS){
+    displayPrimitive(id, maxT, maxS) {
         for (let i = 0; i < this.graph.primitives.length; i++) {
             let primitive = this.graph.primitives[i];
-            if(primitive.id == id){
-                if(primitive.object.type == "rectangle"){
+            if (primitive.id == id) {
+                if (primitive.object.type == "rectangle") {
                     let x1 = primitive.object.x1;
                     let x2 = primitive.object.x2;
                     let y1 = primitive.object.y1;
                     let y2 = primitive.object.y2;
-                    let obj = new MyQuad(this, x1 , y1, x2, y2, 0, maxS, 0, maxT);
+                    let obj = new MyQuad(this, x1, y1, x2, y2, 0, maxS, 0, maxT);
                     obj.display();
                 }
-                else if(primitive.object.type == "triangle"){
+                else if (primitive.object.type == "triangle") {
                     let x1 = primitive.object.x1;
                     let y1 = primitive.object.y1;
                     let z1 = primitive.object.z1;
@@ -319,11 +334,11 @@ class XMLscene extends CGFscene {
                     let y3 = primitive.object.y3;
                     let z3 = primitive.object.z3;
 
-                    let obj = new MyTriangle2(this,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+                    let obj = new MyTriangle2(this, x1, y1, z1, x2, y2, z2, x3, y3, z3);
                     obj.display();
                 }
-                if(primitive.object.type == "cylinder"){
-                    let obj = new MyCylinder(this,primitive.object.stacks,primitive.object.slices);
+                if (primitive.object.type == "cylinder") {
+                    let obj = new MyCylinder(this, primitive.object.stacks, primitive.object.slices);
                     obj.display();
                 }
             }
@@ -333,23 +348,23 @@ class XMLscene extends CGFscene {
      * Applies a transformation
      * @param {transformation} transformation transformation.
      */
-    applyTransformation(transformation){
-        if(transformation.type == "translate"){
-            this.translate(transformation.x,transformation.y,transformation.z);
+    applyTransformation(transformation) {
+        if (transformation.type == "translate") {
+            this.translate(transformation.x, transformation.y, transformation.z);
         }
-        else if(transformation.type == "scale"){
-            this.scale(transformation.x,transformation.y,transformation.z);
+        else if (transformation.type == "scale") {
+            this.scale(transformation.x, transformation.y, transformation.z);
         }
-        else if(transformation.type == "rotate"){
+        else if (transformation.type == "rotate") {
             switch (transformation.axis) {
                 case "x":
-                    this.rotate(transformation.angle,1,0,0)
+                    this.rotate(transformation.angle, 1, 0, 0)
                     break;
                 case "y":
-                    this.rotate(transformation.angle,0,1,0)
+                    this.rotate(transformation.angle, 0, 1, 0)
                     break;
                 case "z":
-                    this.rotate(transformation.angle,0,0,1)
+                    this.rotate(transformation.angle, 0, 0, 1)
                     break;
                 default:
                     break;
@@ -361,12 +376,12 @@ class XMLscene extends CGFscene {
      * @param {material} material Material to apply..
      * @param {texture} texture Texture to apply.
      */
-    applyMaterial(material,texture){
+    applyMaterial(material, texture) {
         let newMaterial = new CGFappearance(this);
         newMaterial.setAmbient(material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a);
         newMaterial.setDiffuse(material.diffuse.r, material.diffuse.g, material.diffuse.b, material.diffuse.a);
         newMaterial.setSpecular(material.specular.r, material.specular.g, material.specular.b, material.specular.a);
-        if(texture != undefined){
+        if (texture != undefined) {
             newMaterial.setTexture(texture);
         }
         newMaterial.apply();
