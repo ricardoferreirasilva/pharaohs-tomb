@@ -117,7 +117,7 @@ class XMLscene extends CGFscene {
                 }
             }
         }
-        
+        this.interface.addLightsGroup(this.lights);
     }
 
 
