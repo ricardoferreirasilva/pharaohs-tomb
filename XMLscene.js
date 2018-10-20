@@ -322,6 +322,10 @@ class XMLscene extends CGFscene {
                     let obj = new MyTriangle2(this,x1,y1,z1,x2,y2,z2,x3,y3,z3);
                     obj.display();
                 }
+                if(primitive.object.type == "cylinder"){
+                    let obj = new MyCylinder(this,primitive.object.stacks,primitive.object.slices);
+                    obj.display();
+                }
             }
         }
     }

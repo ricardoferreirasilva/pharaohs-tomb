@@ -124,6 +124,9 @@
             x2="0" y2="0" z2="0"
             x3="0" y3="0" z3="-1" />
         </primitive >
+        <primitive id="cylinder1">
+           <cylinder base="ff" top="ff" height="ff" slices="30" stacks="30" />
+        </primitive >
     </primitives >
     <components>
         <component id="scene">
@@ -150,6 +153,35 @@
                <componentref id="sarcophagus3"/>
                <componentref id="sarcophagus4"/>
                <componentref id="sarcophagus5"/>
+               <componentref id="pilar1"/>
+            </children>
+        </component>
+        <component id="pilar1">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="8" y="-2" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
+         <component id="pilar1">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="14" y="-2" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
             </children>
         </component>
         <component id="floor">
