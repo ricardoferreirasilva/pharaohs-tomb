@@ -13,6 +13,11 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
+        this.animations = [];
+
+        this.translations = [];
+        this.surfaces = [];
+
     }
 
     /**
@@ -43,6 +48,111 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+
+        
+        this.testPlane = new Plane(this,1,1,[	// U = 0
+            [ // V = 0..1;
+                [-1.0, -1.0, 0.0, 1],
+                [-1.0, 1.0, 0.0, 1]
+
+            ],
+            // U = 1
+            [ // V = 0..1
+                [1.0, -1.0, 0.0, 1],
+                [1.0, 1.0, 0.0, 1]
+            ]
+        ]);
+
+
+        this.makeSurface("0", 1, // degree on U: 2 control vertexes U
+            1, // degree on V: 2 control vertexes on V
+            [	// U = 0
+                [ // V = 0..1;
+                    [-2.0, -2.0, 0.0, 1],
+                    [-2.0, 2.0, 0.0, 1]
+
+                ],
+                // U = 1
+                [ // V = 0..1
+                    [2.0, -2.0, 0.0, 1],
+                    [2.0, 2.0, 0.0, 1]
+                ]
+            ], // translation of surface 
+            [-7.5, 0, 0]);
+
+        this.makeSurface("1", 2, // degree on U: 3 control vertexes U
+            1, // degree on V: 2 control vertexes on V
+            [	// U = 0
+                [ // V = 0..1;
+                    [-1.5, -1.5, 0.0, 1],
+                    [-1.5, 1.5, 0.0, 1]
+
+                ],
+                // U = 1
+                [ // V = 0..1
+                    [0, -1.5, 3.0, 1],
+                    [0, 1.5, 3.0, 1]
+                ],
+                // U = 2
+                [ // V = 0..1							 
+                    [1.5, -1.5, 0.0, 1],
+                    [1.5, 1.5, 0.0, 1]
+                ]
+            ], // translation of surface 
+            [-2.5, 0, 0]);
+
+        this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+            3, // degree on V: 4 control vertexes on V
+            [	// U = 0
+                [ // V = 0..3;
+                    [-1.5, -1.5, 0.0, 1],
+                    [-2.0, -2.0, 2.0, 1],
+                    [-2.0, 2.0, 2.0, 1],
+                    [-1.5, 1.5, 0.0, 1]
+
+                ],
+                // U = 1
+                [ // V = 0..3
+                    [0, 0, 3.0, 1],
+                    [0, -2.0, 3.0, 5],
+                    [0, 2.0, 3.0, 5],
+                    [0, 0, 3.0, 1]
+                ],
+                // U = 2
+                [ // V = 0..3							 
+                    [1.5, -1.5, 0.0, 1],
+                    [2.0, -2.0, 2.0, 1],
+                    [2.0, 2.0, 2.0, 1],
+                    [1.5, 1.5, 0.0, 1]
+                ]
+            ], // translation of surface 
+            [2.5, 0, 0]);
+
+        this.makeSurface("3", 2, // degree on U: 3 control vertexes U
+            3, // degree on V: 4 control vertexes on V
+            [	// U = 0
+                [ // V = 0..3;
+                    [-2.0, -2.0, 1.0, 1],
+                    [-2.0, -1.0, -2.0, 1],
+                    [-2.0, 1.0, 5.0, 1],
+                    [-2.0, 2.0, -1.0, 1]
+                ],
+                // U = 1
+                [ // V = 0..3
+                    [0, -2.0, 0, 1],
+                    [0, -1.0, -1.0, 5],
+                    [0, 1.0, 1.5, 5],
+                    [0, 2.0, 0, 1]
+                ],
+                // U = 2
+                [ // V = 0..3
+                    [2.0, -2.0, -1.0, 1],
+                    [2.0, -1.0, 2.0, 1],
+                    [2.0, 1.0, -5.0, 1],
+                    [2.0, 2.0, 1.0, 1]
+                ]
+            ], // translation of surface 
+            [7.5, 0, 0]);
     }
 
     /**
@@ -62,7 +172,6 @@ class XMLscene extends CGFscene {
             }
         });
         this.graph.views.orthopedics.forEach(orthopedic => {
-            console.log(orthopedic);
             if (orthopedic.id == this.graph.views.default) {
                 let position = vec3.fromValues(orthopedic.from.x, orthopedic.from.y, orthopedic.from.z);
                 let direction = vec3.fromValues(orthopedic.to.x, orthopedic.to.y, orthopedic.to.z);
@@ -142,11 +251,11 @@ class XMLscene extends CGFscene {
 
 
         }
-
+        for (let i = 0; i < this.graph.components.length; i++) {
+            let component = this.graph.components[i];
+        }
         this.sceneInited = true;
     }
-
-
     /**
      * Displays the scene.
      */
@@ -193,6 +302,17 @@ class XMLscene extends CGFscene {
                     this.popMatrix();
                 }
             }
+            this.testPlane.display();
+            /*
+            for (i =0; i<this.surfaces.length; i++) {
+                this.pushMatrix();
+            
+                this.translate(this.translations[i][0], this.translations[i][1], this.translations[i][2]);
+                console.log("display")
+                this.surfaces[i].display();
+                this.popMatrix();
+            }
+            */
         }
 
     }
@@ -203,6 +323,7 @@ class XMLscene extends CGFscene {
      * @param {texture} texture Parent texture.
      */
     displayComponent(component, material, texture) {
+
         //Apply transformations
         for (let i = 0; i < component.transformations.length; i++) {
             let transform = component.transformations[i];
@@ -221,6 +342,22 @@ class XMLscene extends CGFscene {
             else if (transform.type == "translate") this.applyTransformation(transform);
             else if (transform.type == "rotate") this.applyTransformation(transform);
             else if (transform.type == "scale") this.applyTransformation(transform);
+        }
+        if (component.animations.length > 0) {
+            for (let a = 0; a < component.animations.length; a++) {
+                let animation = component.animations[a];
+                if(!animation.finished){
+                    this.displayAnimation(animation);
+                    break;
+                }
+                else{
+                    if(a == component.animations.length - 1){
+                        //Keep displaying last
+                        this.displayAnimation(animation);
+                    }
+                }
+                
+            }
         }
         //Things to pass to children;
         let foundMaterial = this.materialDefault;
@@ -260,11 +397,8 @@ class XMLscene extends CGFscene {
             }
         }
 
-          // After that we find the proper texture for this child
-          if (component.texture != undefined) {
-            if(component.id == "sarcophagus"){
-                console.log(component.id)
-            }
+        // After that we find the proper texture for this child
+        if (component.texture != undefined) {
             if (component.texture.id == "inherit") {
                 //Apply parent texture.
                 this.applyMaterial(foundMaterial, texture);
@@ -273,7 +407,7 @@ class XMLscene extends CGFscene {
             else if (component.texture.id == "none") {
                 //Apply default texture.
                 this.applyMaterial(foundMaterial, this.defaultTexture);
-                foundTexture =  this.defaultTexture;
+                foundTexture = this.defaultTexture;
             }
             for (let i = 0; i < this.graph.textures.length; i++) {
                 //Find chosen texture by ID.
@@ -296,7 +430,8 @@ class XMLscene extends CGFscene {
             let child = component.children[i];
             if (child.type == "primitiveref") {
 
-                this.displayPrimitive(child.id, maxT, maxS);
+                child.obj.display();
+                //this.displayPrimitive(child.id, maxT, maxS);
             }
             else if (child.type == "componentref") {
                 for (let i2 = 0; i2 < this.graph.components.length; i2++) {
@@ -309,6 +444,13 @@ class XMLscene extends CGFscene {
                 }
             }
         }
+    }
+    /**
+    * Displays an animation.
+    * @param {animation} animation animation reference.
+    */
+    displayAnimation(animation) {
+        animation.update(this);
     }
     /**
      * Displays a primitive.
@@ -392,5 +534,16 @@ class XMLscene extends CGFscene {
             newMaterial.setTexture(texture);
         }
         newMaterial.apply();
+    }
+
+    makeSurface(id, degree1, degree2, controlvertexes, translation) {
+
+        var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+
+        var obj = new CGFnurbsObject(this, 20, 20, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+
+        this.surfaces.push(obj);
+        this.translations.push(translation);
+
     }
 }

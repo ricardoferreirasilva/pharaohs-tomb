@@ -107,6 +107,17 @@
            <rotate axis="z" angle="0" />
         </transformation>
     </transformations>
+    <animations>
+        <linear id="linear1" span="7">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="2" yy="2" zz="2"/>
+            <controlpoint xx="5" yy="5" zz="5"/>
+            <controlpoint xx="5" yy="0" zz="5"/>
+            <controlpoint xx="0" yy="0" zz="-5"/>
+            <controlpoint xx="0" yy="0" zz="0"/>
+        </linear>
+        <circular id="circular1" span="2" center="0" radius="5" startang="0.1" rotang="0.2"/>
+    </animations>
     <primitives>
         <primitive id="rect1">
             <rectangle x1="1.0" y1="1.0" x2="1.0" y2="1.0" />
@@ -139,6 +150,9 @@
                <componentref id="wall1"/>
                <componentref id="wall2"/>
                <componentref id="sarcophagus"/>
+               <componentref id="pilar1"/>
+               <componentref id="pilar2"/>
+               <componentref id="pilar3"/>
             </children>
         </component>
          <component id="sarcophagus">
@@ -154,7 +168,6 @@
                <componentref id="sarcophagus3"/>
                <componentref id="sarcophagus4"/>
                <componentref id="sarcophagus5"/>
-               <componentref id="pilar1"/>
             </children>
         </component>
         <component id="pilar1">
@@ -171,7 +184,7 @@
                <primitiveref id="cylinder1"/>
             </children>
         </component>
-         <component id="pilar1">
+         <component id="pilar2">
             <transformation>
                  <scale x="0.5" y="5" z="0.5" />
                  <rotate axis="x" angle="-1.57"/>
@@ -181,6 +194,23 @@
                <material id="mat1" />
             </materials>
              <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
+         <component id="pilar3">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+                <animationref id="linear1"/>
+                <animationref id="linear1"/>
+            </animations>
             <children>
                <primitiveref id="cylinder1"/>
             </children>
