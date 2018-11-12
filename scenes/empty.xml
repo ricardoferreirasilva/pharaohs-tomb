@@ -138,9 +138,35 @@
         <primitive id="cylinder1">
            <cylinder base="ff" top="ff" height="ff" slices="30" stacks="30" />
         </primitive >
+        <primitive id="plane1">
+           <plane u="1" v="1"/>
+        </primitive >
     </primitives >
     <components>
-
+        <component id="scene">
+            <transformation>
+            </transformation>
+            <materials>
+            </materials>
+            <children>
+                <componentref id="myPlane"/>
+            </children>
+        </component>
+        <component id="myPlane">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <primitiveref id="plane1"/>
+            </children>
+        </component>
     </components>
     
    

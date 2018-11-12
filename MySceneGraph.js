@@ -711,7 +711,7 @@ class MySceneGraph {
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
                                 else if (primitive.object.type == "plane") {
-                                    let obj = new Plane(this,1,1,[	// U = 0
+                                    let obj = new Plane(this.scene,1,1,[	// U = 0
                                         [ // V = 0..1;
                                             [-1.0, -1.0, 0.0, 1],
                                             [-1.0, 1.0, 0.0, 1]

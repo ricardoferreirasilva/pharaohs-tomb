@@ -62,97 +62,6 @@ class XMLscene extends CGFscene {
                 [1.0, 1.0, 0.0, 1]
             ]
         ]);
-
-
-        this.makeSurface("0", 1, // degree on U: 2 control vertexes U
-            1, // degree on V: 2 control vertexes on V
-            [	// U = 0
-                [ // V = 0..1;
-                    [-2.0, -2.0, 0.0, 1],
-                    [-2.0, 2.0, 0.0, 1]
-
-                ],
-                // U = 1
-                [ // V = 0..1
-                    [2.0, -2.0, 0.0, 1],
-                    [2.0, 2.0, 0.0, 1]
-                ]
-            ], // translation of surface 
-            [-7.5, 0, 0]);
-
-        this.makeSurface("1", 2, // degree on U: 3 control vertexes U
-            1, // degree on V: 2 control vertexes on V
-            [	// U = 0
-                [ // V = 0..1;
-                    [-1.5, -1.5, 0.0, 1],
-                    [-1.5, 1.5, 0.0, 1]
-
-                ],
-                // U = 1
-                [ // V = 0..1
-                    [0, -1.5, 3.0, 1],
-                    [0, 1.5, 3.0, 1]
-                ],
-                // U = 2
-                [ // V = 0..1							 
-                    [1.5, -1.5, 0.0, 1],
-                    [1.5, 1.5, 0.0, 1]
-                ]
-            ], // translation of surface 
-            [-2.5, 0, 0]);
-
-        this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-            3, // degree on V: 4 control vertexes on V
-            [	// U = 0
-                [ // V = 0..3;
-                    [-1.5, -1.5, 0.0, 1],
-                    [-2.0, -2.0, 2.0, 1],
-                    [-2.0, 2.0, 2.0, 1],
-                    [-1.5, 1.5, 0.0, 1]
-
-                ],
-                // U = 1
-                [ // V = 0..3
-                    [0, 0, 3.0, 1],
-                    [0, -2.0, 3.0, 5],
-                    [0, 2.0, 3.0, 5],
-                    [0, 0, 3.0, 1]
-                ],
-                // U = 2
-                [ // V = 0..3							 
-                    [1.5, -1.5, 0.0, 1],
-                    [2.0, -2.0, 2.0, 1],
-                    [2.0, 2.0, 2.0, 1],
-                    [1.5, 1.5, 0.0, 1]
-                ]
-            ], // translation of surface 
-            [2.5, 0, 0]);
-
-        this.makeSurface("3", 2, // degree on U: 3 control vertexes U
-            3, // degree on V: 4 control vertexes on V
-            [	// U = 0
-                [ // V = 0..3;
-                    [-2.0, -2.0, 1.0, 1],
-                    [-2.0, -1.0, -2.0, 1],
-                    [-2.0, 1.0, 5.0, 1],
-                    [-2.0, 2.0, -1.0, 1]
-                ],
-                // U = 1
-                [ // V = 0..3
-                    [0, -2.0, 0, 1],
-                    [0, -1.0, -1.0, 5],
-                    [0, 1.0, 1.5, 5],
-                    [0, 2.0, 0, 1]
-                ],
-                // U = 2
-                [ // V = 0..3
-                    [2.0, -2.0, -1.0, 1],
-                    [2.0, -1.0, 2.0, 1],
-                    [2.0, 1.0, -5.0, 1],
-                    [2.0, 2.0, 1.0, 1]
-                ]
-            ], // translation of surface 
-            [7.5, 0, 0]);
     }
 
     /**
@@ -302,17 +211,6 @@ class XMLscene extends CGFscene {
                     this.popMatrix();
                 }
             }
-            this.testPlane.display();
-            /*
-            for (i =0; i<this.surfaces.length; i++) {
-                this.pushMatrix();
-            
-                this.translate(this.translations[i][0], this.translations[i][1], this.translations[i][2]);
-                console.log("display")
-                this.surfaces[i].display();
-                this.popMatrix();
-            }
-            */
         }
 
     }
@@ -429,7 +327,6 @@ class XMLscene extends CGFscene {
         for (let i = 0; i < component.children.length; i++) {
             let child = component.children[i];
             if (child.type == "primitiveref") {
-
                 child.obj.display();
                 //this.displayPrimitive(child.id, maxT, maxS);
             }
@@ -451,47 +348,6 @@ class XMLscene extends CGFscene {
     */
     displayAnimation(animation) {
         animation.update(this);
-    }
-    /**
-     * Displays a primitive.
-     * @param {id} id Primitive id.
-     * @param {maxT} maxT Maximum T for texcoords.
-     * @param {maxS} maxS Maximum S for texcoords.
-     */
-    displayPrimitive(id, maxT, maxS) {
-        for (let i = 0; i < this.graph.primitives.length; i++) {
-            let primitive = this.graph.primitives[i];
-            if (primitive.id == id) {
-                if (primitive.object.type == "rectangle") {
-                    let x1 = primitive.object.x1;
-                    let x2 = primitive.object.x2;
-                    let y1 = primitive.object.y1;
-                    let y2 = primitive.object.y2;
-                    let obj = new MyQuad(this, x1, y1, x2, y2, 0, maxS, 0, maxT);
-                    obj.display();
-                }
-                else if (primitive.object.type == "triangle") {
-                    let x1 = primitive.object.x1;
-                    let y1 = primitive.object.y1;
-                    let z1 = primitive.object.z1;
-
-                    let x2 = primitive.object.x2;
-                    let y2 = primitive.object.y2;
-                    let z2 = primitive.object.z2;
-
-                    let x3 = primitive.object.x3;
-                    let y3 = primitive.object.y3;
-                    let z3 = primitive.object.z3;
-
-                    let obj = new MyTriangle2(this, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-                    obj.display();
-                }
-                if (primitive.object.type == "cylinder") {
-                    let obj = new MyCylinder(this, primitive.object.stacks, primitive.object.slices);
-                    obj.display();
-                }
-            }
-        }
     }
     /**
      * Applies a transformation
@@ -534,16 +390,5 @@ class XMLscene extends CGFscene {
             newMaterial.setTexture(texture);
         }
         newMaterial.apply();
-    }
-
-    makeSurface(id, degree1, degree2, controlvertexes, translation) {
-
-        var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
-
-        var obj = new CGFnurbsObject(this, 20, 20, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
-
-        this.surfaces.push(obj);
-        this.translations.push(translation);
-
     }
 }
