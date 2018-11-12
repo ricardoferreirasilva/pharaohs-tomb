@@ -141,6 +141,18 @@
         <primitive id="plane1">
            <plane u="1" v="1"/>
         </primitive >
+         <primitive id="patch1">
+           <patch degree1="1" degree2="1">
+                <u>
+                    <v x="-1" y="-1" z ="0" w = "1"/>
+                    <v x="-1" y="1" z ="0" w = "1"/>
+                </u>
+                <u>
+                    <v x="1" y="-1" z ="0" w = "1"/>
+                    <v x="1" y="1" z ="0" w = "1"/>
+                </u>
+           </patch>
+        </primitive >
     </primitives >
     <components>
         <component id="scene">
@@ -164,7 +176,7 @@
             <animations>
             </animations>
             <children>
-               <primitiveref id="plane1"/>
+               <primitiveref id="patch1"/>
             </children>
         </component>
     </components>

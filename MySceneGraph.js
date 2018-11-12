@@ -633,8 +633,30 @@ class MySceneGraph {
                     }
                     else if (object.nodeName == "plane") {
                         let u = this.reader.getInteger(object, 'u');
-                        let v = this.reader.getFloat(object, 'v');
+                        let v = this.reader.getInteger(object, 'v');
                         currentPrimitive.object = { type: object.nodeName, u: u, v: v };
+                        this.primitives.push(currentPrimitive);
+                    }
+                    else if (object.nodeName == "patch") {
+                        let d1 = this.reader.getInteger(object, 'degree1');
+                        let d2 = this.reader.getInteger(object, 'degree2');
+                        currentPrimitive.object = { type: object.nodeName, d1: d1, d2: d2, controlPoints: []};
+                        let us = object.children;
+                        for (let u = 0; u < us.length; u++) {
+                            let uParse = us[u];
+                            let uArray = [];
+                            let vs = uParse.children;
+                            for (let v = 0; v < vs.length; v++) {
+                                let vParse = vs[v];
+                                let x = this.reader.getFloat(vParse, 'x');
+                                let y = this.reader.getFloat(vParse, 'y');
+                                let z = this.reader.getFloat(vParse, 'z');
+                                let w = this.reader.getFloat(vParse, 'w');
+                                let vArray = [x,y,z,w];
+                                uArray.push(vArray);
+                            }
+                            currentPrimitive.object.controlPoints.push(uArray);
+                        }
                         this.primitives.push(currentPrimitive);
                     }
             
@@ -723,6 +745,10 @@ class MySceneGraph {
                                             [1.0, 1.0, 0.0, 1]
                                         ]
                                     ]);
+                                    componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
+                                }
+                                else if (primitive.object.type == "patch") {
+                                    let obj = new Plane(this.scene,primitive.object.d1,primitive.object.d2,primitive.object.controlPoints);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
 
