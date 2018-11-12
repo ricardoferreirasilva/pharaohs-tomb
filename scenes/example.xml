@@ -28,7 +28,6 @@
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
         </ortho>
-
     </views>
     <ambient>
         <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
@@ -65,7 +64,7 @@
          <texture id="brick1" file="brick1.jpg" />
          <texture id="sand" file="sand.jpg" />
          <texture id="gold" file="gold.jpg" />
-         <texture id="sarcophagus1" file="sarcophagus1.jpg" />
+         <texture id="sarcophagus1" file="sarcophagus1.jpg"/>
     </textures>
     <materials>
         <material id="mat1" shininess = "0" >
@@ -138,6 +137,9 @@
         <primitive id="cylinder1">
            <cylinder base="ff" top="ff" height="ff" slices="30" stacks="30" />
         </primitive >
+         <primitive id="plane1">
+           <plane u="1" v="1"/>
+        </primitive >
     </primitives >
     <components>
         <component id="scene">
@@ -153,6 +155,7 @@
                <componentref id="pilar1"/>
                <componentref id="pilar2"/>
                <componentref id="pilar3"/>
+               <componentref id="planeX"/>
             </children>
         </component>
          <component id="sarcophagus">
@@ -162,6 +165,8 @@
             <materials>
             </materials>
             <texture id="egypt1" length_s="2" length_t="2" />
+             <animations>
+            </animations>
             <children>
                <componentref id="sarcophagus1"/>
                <componentref id="sarcophagus2"/>
@@ -215,6 +220,21 @@
                <primitiveref id="cylinder1"/>
             </children>
         </component>
+          <component id="planeX">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
         <component id="floor">
             <transformation>
                 <rotate axis="x" angle="-1.57"/>
@@ -244,7 +264,7 @@
                <primitiveref id="rect1"/>
             </children>
         </component>
-         <component id="wall2">
+        <component id="wall2">
             <transformation>
                 <rotate axis="y" angle="1.57"/>
                 <scale x="4" y="2" z="1" />
@@ -354,7 +374,4 @@
             </children>
         </component>
     </components>
-    
-   
-
 </yas>

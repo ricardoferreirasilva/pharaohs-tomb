@@ -631,6 +631,13 @@ class MySceneGraph {
                         currentPrimitive.object = { type: object.nodeName, stacks: stacks, slices: slices };
                         this.primitives.push(currentPrimitive);
                     }
+                    else if (object.nodeName == "plane") {
+                        let u = this.reader.getInteger(object, 'u');
+                        let v = this.reader.getFloat(object, 'v');
+                        currentPrimitive.object = { type: object.nodeName, u: u, v: v };
+                        this.primitives.push(currentPrimitive);
+                    }
+            
                 }
 
             }
@@ -703,6 +710,23 @@ class MySceneGraph {
                                     let obj = new MyCylinder(this.scene, primitive.object.stacks, primitive.object.slices);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
+                                else if (primitive.object.type == "plane") {
+                                    let obj = new Plane(this,1,1,[	// U = 0
+                                        [ // V = 0..1;
+                                            [-1.0, -1.0, 0.0, 1],
+                                            [-1.0, 1.0, 0.0, 1]
+                            
+                                        ],
+                                        // U = 1
+                                        [ // V = 0..1
+                                            [1.0, -1.0, 0.0, 1],
+                                            [1.0, 1.0, 0.0, 1]
+                                        ]
+                                    ]);
+                                    componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
+                                }
+
+
                             }
                         }
                     }
