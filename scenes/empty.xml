@@ -142,17 +142,16 @@
            <plane u="1" v="1"/>
         </primitive >
          <primitive id="patch1">
-           <patch degree1="1" degree2="1">
-                <u>
-                    <v x="-1" y="-1" z ="0" w = "1"/>
-                    <v x="-1" y="1" z ="0" w = "1"/>
-                </u>
-                <u>
-                    <v x="1" y="-1" z ="0" w = "1"/>
-                    <v x="1" y="1" z ="0" w = "1"/>
-                </u>
+          <patch  npointsU="1" npointsV="1" npartsU="1" npartsV="1">
+               <controlpoint x="-1" y="-1" z ="0"/>
+               <controlpoint x="-1" y="1" z ="0"/>
+               <controlpoint x="1" y="-1" z ="0"/>
+               <controlpoint x="1" y="1" z ="0"/>
            </patch>
         </primitive >
+        <primitive id = "cylinder2">
+            <cylinder2 base="2" top="1" height="5" slices="3" stacks="3" />
+        </primitive>
     </primitives >
     <components>
         <component id="scene">

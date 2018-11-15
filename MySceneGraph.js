@@ -637,25 +637,39 @@ class MySceneGraph {
                         currentPrimitive.object = { type: object.nodeName, u: u, v: v };
                         this.primitives.push(currentPrimitive);
                     }
+                    else if (object.nodeName == "cylinder2") {
+                        let base = this.reader.getInteger(object, 'base');
+                        let top = this.reader.getInteger(object, 'top');
+                        let height = this.reader.getInteger(object, 'height');
+                        let slices = this.reader.getInteger(object, 'slices');
+                        let stacks = this.reader.getInteger(object, 'stacks');
+                        currentPrimitive.object = { type: object.nodeName,base:base,top:top,height:height,slices:slices,stacks:stacks};
+                        this.primitives.push(currentPrimitive);
+                    }
                     else if (object.nodeName == "patch") {
-                        let d1 = this.reader.getInteger(object, 'degree1');
-                        let d2 = this.reader.getInteger(object, 'degree2');
-                        currentPrimitive.object = { type: object.nodeName, d1: d1, d2: d2, controlPoints: []};
+                        let npointsU = this.reader.getInteger(object, 'npointsU');
+                        let npointsV = this.reader.getInteger(object, 'npointsV');
+                        let npartsV = this.reader.getInteger(object, 'npartsV');
+                        let npartsU = this.reader.getInteger(object, 'npartsU');
+
+                        currentPrimitive.object = { type: object.nodeName, npointsU: npointsU, npointsV: npointsV,npartsV:npartsV,npartsU:npartsU,controlPoints: []};
                         let us = object.children;
+                        let currentArray = [];
+                        let totalPoints = npointsU * npointsV;
+                        let counter = 0;
                         for (let u = 0; u < us.length; u++) {
                             let uParse = us[u];
-                            let uArray = [];
-                            let vs = uParse.children;
-                            for (let v = 0; v < vs.length; v++) {
-                                let vParse = vs[v];
-                                let x = this.reader.getFloat(vParse, 'x');
-                                let y = this.reader.getFloat(vParse, 'y');
-                                let z = this.reader.getFloat(vParse, 'z');
-                                let w = this.reader.getFloat(vParse, 'w');
-                                let vArray = [x,y,z,w];
-                                uArray.push(vArray);
+                            let x = this.reader.getFloat(uParse, 'x');
+                            let y = this.reader.getFloat(uParse, 'y');
+                            let z = this.reader.getFloat(uParse, 'z');
+                            let vArray = [x,y,z,1];
+                            currentArray.push(vArray);
+                            if(counter == npartsV){
+                                currentPrimitive.object.controlPoints.push(currentArray);
+                                currentArray = [];
+                                counter = -1
                             }
-                            currentPrimitive.object.controlPoints.push(uArray);
+                            counter++;
                         }
                         this.primitives.push(currentPrimitive);
                     }
@@ -748,7 +762,12 @@ class MySceneGraph {
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
                                 else if (primitive.object.type == "patch") {
-                                    let obj = new Plane(this.scene,primitive.object.d1,primitive.object.d2,primitive.object.controlPoints);
+                                    console.log(primitive)
+                                    let obj = new Plane(this.scene,primitive.object.npointsU,primitive.object.npointsV,primitive.object.controlPoints);
+                                    componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
+                                }
+                                else if (primitive.object.type == "cylinder2") {
+                                    let obj = new MyCylinder2(this.scene,primitive.object.base,primitive.object.top,primitive.object.height,primitive.object.stacks,primitive.object.slices);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
 
