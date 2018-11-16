@@ -10,7 +10,7 @@ uniform mat4 uNMatrix;
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler2;
 
-uniform float normScale;
+uniform float normScale = 50.0;
 
 void main() {
 	vec3 offset=vec3(0.0,0.0,0.0);
@@ -20,6 +20,6 @@ void main() {
 	if (texture2D(uSampler2, vec2(0.0,0.1)+vTextureCoord).b > 0.5)
 		offset=aVertexNormal*normScale*0.1;
 
-	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
+	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+1.0, 1.0);
 }
 
