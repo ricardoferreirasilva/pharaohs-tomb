@@ -656,7 +656,8 @@ class MySceneGraph {
                         let us = object.children;
                         let currentArray = [];
                         let totalPoints = npointsU * npointsV;
-                        let counter = 0;
+                        let counterV = 0;
+                        let counterU = 0;
                         for (let u = 0; u < us.length; u++) {
                             let uParse = us[u];
                             let x = this.reader.getFloat(uParse, 'x');
@@ -664,12 +665,16 @@ class MySceneGraph {
                             let z = this.reader.getFloat(uParse, 'z');
                             let vArray = [x,y,z,1];
                             currentArray.push(vArray);
-                            if(counter == npartsV){
+                            if(counterV == npointsV){
                                 currentPrimitive.object.controlPoints.push(currentArray);
                                 currentArray = [];
-                                counter = -1
+                                counterV = -1
+                                counterU++;
+                                if(counterU == npointsU+1){
+                                    break;
+                                }
                             }
-                            counter++;
+                            counterV++;
                         }
                         this.primitives.push(currentPrimitive);
                     }
@@ -763,7 +768,7 @@ class MySceneGraph {
                                 }
                                 else if (primitive.object.type == "patch") {
                                     console.log(primitive)
-                                    let obj = new Plane(this.scene,primitive.object.npointsU,primitive.object.npointsV,primitive.object.controlPoints);
+                                    let obj = new Patch(this.scene,primitive.object.npointsU,primitive.object.npointsV,primitive.object.controlPoints);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
                                 else if (primitive.object.type == "cylinder2") {

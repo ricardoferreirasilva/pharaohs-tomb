@@ -50,6 +50,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
 
         
+
+        this.heightmap = new CGFtexture(this, "scenes/images/heightmap.jpg");
+        this.colormap = new CGFtexture(this, "scenes/images/terrain.jpg");
         this.testPlane = new Plane(this,1,1,[	// U = 0
             [ // V = 0..1;
                 [-1.0, -1.0, 0.0, 1],

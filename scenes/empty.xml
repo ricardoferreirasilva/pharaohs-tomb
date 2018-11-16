@@ -136,7 +136,7 @@
             x3="0" y3="0" z3="-1" />
         </primitive >
         <primitive id="cylinder1">
-           <cylinder base="ff" top="ff" height="ff" slices="30" stacks="30" />
+           <cylinder base="ff" top="ff" height="ff" slices="1" stacks="2" />
         </primitive >
         <primitive id="plane1">
            <plane u="1" v="1"/>
@@ -147,6 +147,8 @@
                <controlpoint x="-1" y="1" z ="0"/>
                <controlpoint x="1" y="-1" z ="0"/>
                <controlpoint x="1" y="1" z ="0"/>
+               <controlpoint x="3" y="-1" z ="0"/>
+               <controlpoint x="3" y="1" z ="0"/>
            </patch>
         </primitive >
         <primitive id = "cylinder2">
@@ -160,13 +162,62 @@
             <materials>
             </materials>
             <children>
-                <componentref id="myPlane"/>
+                  <componentref id="airplane"/>
             </children>
         </component>
-        <component id="myPlane">
+         <component id="airplane">
             <transformation>
                 <scale x="1" y="1" z="1" />
                 <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <componentref id="plainHull"/>
+               <componentref id="wall1"/>
+               <componentref id="wall2"/>
+            </children>
+        </component>
+        <component id="plainHull">
+            <transformation>
+                <scale x="3" y="1" z="1" />
+                <rotate axis="x" angle="1.6" />
+                <translate x="0" y="0" z="-2" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+            <animations>
+            </animations>
+            <children>
+               <primitiveref id="cylinder2"/>
+            </children>
+        </component>
+        <component id="wall1">
+            <transformation>
+                <scale x="1" y="0.3" z="1" />
+                <rotate axis="y" angle="3.2" />
+               <translate x="0" y="2.5" z="0" />
+
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <primitiveref id="patch1"/>
+            </children>
+        </component>
+         <component id="wall2">
+            <transformation>
+                <scale x="1" y="0.3" z="1" />
+                <translate x="0" y="2.5" z="1.5" />
             </transformation>
             <materials>
                <material id="mat1" />
