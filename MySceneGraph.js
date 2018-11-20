@@ -678,11 +678,29 @@ class MySceneGraph {
                         }
                         this.primitives.push(currentPrimitive);
                     }
+                    else if (object.nodeName == "water") {
+                        let textureID = this.reader.getString(object, 'idtexture');
+                        let wavemapID = this.reader.getString(object, 'idwavemap');
+                        let parts = this.reader.getInteger(object, 'parts');
+                        let heightscale = this.reader.getFloat(object, 'heightscale');
+                        let texscale = this.reader.getFloat(object, 'texscale');
+                        currentPrimitive.object = { type: object.nodeName,textureID:textureID,wavemapID:wavemapID,parts:parts,heightscale:heightscale,texscale:texscale};
+                        this.primitives.push(currentPrimitive);
+                    }
+                    else if (object.nodeName == "terrain") {
+                        let textureID = this.reader.getString(object, 'idtexture');
+                        let idheightmap = this.reader.getString(object, 'idheightmap');
+                        let parts = this.reader.getInteger(object, 'parts');
+                        let heightscale = this.reader.getFloat(object, 'heightscale');
+                        currentPrimitive.object = { type: object.nodeName,textureID:textureID,idheightmap:idheightmap,parts:parts,heightscale:heightscale};
+                        this.primitives.push(currentPrimitive);
+                    }
             
                 }
 
             }
         }
+        console.log(this.primitives);
     }
     /**
      * Parse the components element into a data structure.
@@ -773,6 +791,12 @@ class MySceneGraph {
                                 }
                                 else if (primitive.object.type == "cylinder2") {
                                     let obj = new MyCylinder2(this.scene,primitive.object.base,primitive.object.top,primitive.object.height,primitive.object.stacks,primitive.object.slices);
+                                    componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
+                                }
+                                else if (primitive.object.type == "water") {
+                                    
+                                    let obj = new Water(this.scene,primitive.object.idtexture,primitive.object.idwavemap,primitive.object.parts,primitive.object.heightscale,primitive.object.texscale);
+                                    console.log(obj);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
 

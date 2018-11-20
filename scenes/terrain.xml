@@ -151,6 +151,13 @@
                <controlpoint x="3" y="1" z ="0"/>
            </patch>
         </primitive >
+        <primitive id="terrain1">
+                  <terrain idtexture="" idheightmap="" parts="" heightscale=""/>
+        </primitive >
+        <primitive id="water1">
+                 <water idtexture="water" idwavemap="water" parts="2" heightscale="2" texscale="2" />
+        </primitive >
+
         <primitive id = "cylinder2">
             <cylinder2 base="2" top="1" height="5" slices="3" stacks="3" />
         </primitive>
@@ -162,13 +169,25 @@
             <materials>
             </materials>
             <children>
-                  <componentref id="terrain1"/>
+                  <componentref id="waterPlane"/>
             </children>
         </component>
-        <component id="terrain1">
+        <component id="waterPlane">
             <transformation>
                <scale x="2" y="2" z="2" />
-
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+            <animations>
+            </animations>
+            <children>
+              <primitiveref id="water1"/>
+            </children>
+        </component>
+          <component id="terrain1">
+            <transformation>
+               <scale x="2" y="2" z="2" />
             </transformation>
             <materials>
                <material id="mat1" />
@@ -177,7 +196,6 @@
             <animations>
             </animations>
             <children>
-               <primitiveref id="patch1"/>
             </children>
         </component>
     </components>
