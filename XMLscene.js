@@ -51,15 +51,7 @@ class XMLscene extends CGFscene {
 
         
 
-        this.heightmap = new CGFtexture(this, "scenes/images/heightmap.jpg");
-        this.colormap = new CGFtexture(this, "scenes/images/terrain.jpg");
-        this.ocean = new CGFtexture(this, "scenes/images/ocean.jpg");
 
-        this.myShader = new CGFshader(this.gl, "scenes/shaders/heightmap.vert", "scenes/shaders/texture1.frag");
-        this.myShader.setUniformsValues({heightmap: 1,colormap: 2});
-
-        this.otherShader = new CGFshader(this.gl, "scenes/shaders/ocean.vert", "scenes/shaders/texture1.frag");
-        this.otherShader.setUniformsValues({date:Date.now(),colormap: 2});
     }
 
     /**
@@ -202,13 +194,10 @@ class XMLscene extends CGFscene {
                     i++;
                 }
             }
-            /*
-            this.setActiveShader(this.otherShader);
-            let factor = Math.sin(Date.now() * 0.00001) * 20;
-            this.otherShader.setUniformsValues({factor:factor,colormap: 2});
-            //this.heightmap.bind(1);
-            this.ocean.bind(2);
-            */
+            
+        
+            
+            
             
             //Displaying components
             for (let i = 0; i < this.graph.components.length; i++) {
@@ -218,9 +207,8 @@ class XMLscene extends CGFscene {
                     this.popMatrix();
                 }
             }
-            /*
-            this.setActiveShader(this.defaultShader);
-            */
+            
+            
         }
 
     }

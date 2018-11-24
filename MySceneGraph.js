@@ -796,7 +796,10 @@ class MySceneGraph {
                                 else if (primitive.object.type == "water") {
                                     
                                     let obj = new Water(this.scene,primitive.object.idtexture,primitive.object.idwavemap,primitive.object.parts,primitive.object.heightscale,primitive.object.texscale);
-                                    console.log(obj);
+                                    componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
+                                }
+                                else if (primitive.object.type == "terrain") {
+                                    let obj = new Terrain(this.scene,primitive.object.textureID,primitive.object.idheightmap,primitive.object.parts,primitive.object.heightscale);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
 
@@ -869,7 +872,6 @@ class MySceneGraph {
                             if(animation.id == id){
                                 componentObject.animations.push(new LinearAnimation(animation.span,animation.points))
                             }
-                            
                         }
                     }
                 }
