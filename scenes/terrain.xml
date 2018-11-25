@@ -66,6 +66,9 @@
          <texture id="sand" file="sand.jpg" />
          <texture id="gold" file="gold.jpg" />
          <texture id="sarcophagus1" file="sarcophagus1.jpg" />
+         <texture id="terrainHeightmap" file="heightmap.jpg" />
+         <texture id="colormap" file="terrain.jpg" />
+         <texture id="ocean" file="ocean.jpg" />
     </textures>
     <materials>
         <material id="mat1" shininess = "0" >
@@ -152,10 +155,10 @@
            </patch>
         </primitive >
         <primitive id="terrain1">
-                  <terrain idtexture="" idheightmap="" parts="" heightscale=""/>
+                  <terrain idtexture="colormap" idheightmap="terrainHeightmap" parts="1" heightscale="1"/>
         </primitive >
         <primitive id="water1">
-                 <water idtexture="water" idwavemap="water" parts="2" heightscale="2" texscale="2" />
+                 <water idtexture="ocean" idwavemap="ocean" parts="2" heightscale="2" texscale="2" />
         </primitive >
 
         <primitive id = "cylinder2">

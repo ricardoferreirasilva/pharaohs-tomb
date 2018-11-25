@@ -150,9 +150,6 @@ class XMLscene extends CGFscene {
 
 
         }
-        for (let i = 0; i < this.graph.components.length; i++) {
-            let component = this.graph.components[i];
-        }
         this.sceneInited = true;
     }
     /**

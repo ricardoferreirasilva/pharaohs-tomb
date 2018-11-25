@@ -794,12 +794,44 @@ class MySceneGraph {
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
                                 else if (primitive.object.type == "water") {
-                                    
-                                    let obj = new Water(this.scene,primitive.object.idtexture,primitive.object.idwavemap,primitive.object.parts,primitive.object.heightscale,primitive.object.texscale);
+                                    let wavemapTexture;
+                                    let colormapTexture;
+                                    for (let i = 0; i < this.textures.length; i++) {
+                                        //Find chosen texture by ID.
+                                        let texture = this.textures[i];
+                                        if (texture.id == primitive.object.textureID) {
+                                            let path = "./scenes/images/" + this.textures[i].file;
+                                            colormapTexture= new CGFtexture(this.scene, path);
+                                            if (texture.id == primitive.object.idwavemap) {
+                                                let path = "./scenes/images/" + this.textures[i].file;
+                                                wavemapTexture= new CGFtexture(this.scene, path);                                
+                                            }                                
+                                        }
+                                        else if (texture.id == primitive.object.idwavemap){
+                                            let path = "./scenes/images/" + this.textures[i].file;
+                                            wavemapTexture = new CGFtexture(this.scene, path);                                
+                                        }
+                                    }
+                                    let obj = new Water(this.scene,colormapTexture,wavemapTexture,primitive.object.parts,primitive.object.heightscale,primitive.object.texscale);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
                                 else if (primitive.object.type == "terrain") {
-                                    let obj = new Terrain(this.scene,primitive.object.textureID,primitive.object.idheightmap,primitive.object.parts,primitive.object.heightscale);
+                                    let heightmapTexture;
+                                    let colormapTexture;
+                                    for (let i = 0; i < this.textures.length; i++) {
+                                        //Find chosen texture by ID.
+                                        let texture = this.textures[i];
+                                        if (texture.id == primitive.object.textureID) {
+                                            let path = "./scenes/images/" + this.textures[i].file;
+                                            colormapTexture= new CGFtexture(this.scene, path);                                
+                                        }
+                                        else if (texture.id == primitive.object.idheightmap){
+                                            let path = "./scenes/images/" + this.textures[i].file;
+                                            heightmapTexture = new CGFtexture(this.scene, path);                                
+                                        }
+                                    }
+
+                                    let obj = new Terrain(this.scene,colormapTexture,heightmapTexture,primitive.object.parts,primitive.object.heightscale);
                                     componentObject.children.push({ type: "primitiveref", id: id,obj:obj })
                                 }
 

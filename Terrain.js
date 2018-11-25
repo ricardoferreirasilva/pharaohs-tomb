@@ -1,9 +1,11 @@
 class Terrain{
-    constructor(scene,idtexture,idheightmap,parts,heightscale){
+    constructor(scene,colormap,heightmap,parts,heightscale){
         this.scene = scene;
 
-        this.heightmap = new CGFtexture(this.scene, "scenes/images/heightmap.jpg");
-        this.colormap = new CGFtexture(this.scene, "scenes/images/terrain.jpg");
+
+
+        this.heightmap = heightmap;
+        this.colormap = colormap;
         
         this.terrainShader = new CGFshader(this.scene.gl, "scenes/shaders/heightmap.vert", "scenes/shaders/texture1.frag");
         this.terrainShader.setUniformsValues({heightmap: 1,colormap: 2});
